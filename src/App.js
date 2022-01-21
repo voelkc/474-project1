@@ -380,13 +380,21 @@ function App() {
 				<div>
 					<h3>Design Justification</h3>
 					<p>The question I am interested in answering is: How are incidents of police use-of-force distributed through time, race and
-						level or severity of force used?Because I have so many data points, and wanted to represent each individual incident of use-of-force, and show the accumulation</p>
+						level or severity of force used? Because I want to represent each individual incident of use-of-force (because of the data
+						density of each incident), and show the accumulation of these incidents throughout time, I decided to use a dot plot. Each
+						dot represents one incident, its size is determined by its severity, color determined by race of the subject, x-position
+						determined by time and the y-positions is to show the aggregated incidents on that day. This allows to show trends in my
+						three specified dimensions. Because there are so many data points, and I have limited space they got pretty scrunched
+						together, which is not a huge issue in identifying trends, but can be tough to look at specific points. I lowered the opacity
+						a bit to help with this, but still is a constraint i am struggling with. I also placed date labels at the peaks of days with
+						especially more incidents to draw attention and inform the viewer.  </p>
 				</div>
 				<div>
 					<h3>Data Transformation Description</h3>
 					<p>To answer my question, certain fields for each datum were important for me to understand,
-						these were the date, subjectRace and level of use-of-force. Because of the weight of the data density of each incident
-						(time, race and level), the variation in time being really specific</p>
+						these were the date, subjectRace and level of use-of-force. To make the data suitable for the dot plot, I needed to organize
+						it by its time. I first started by moving the data from an array, to JSON that worked as a calendar-tree like structure that
+						had years composing of months composing of days that held an array of incidents (to simplify my data, I removed the time).</p>
 				</div>
 				<div>
 					<h3>Insights</h3>
