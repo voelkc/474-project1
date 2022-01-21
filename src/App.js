@@ -394,11 +394,22 @@ function App() {
 					<p>To answer my question, certain fields for each datum were important for me to understand,
 						these were the date, subjectRace and level of use-of-force. To make the data suitable for the dot plot, I needed to organize
 						it by its time. I first started by moving the data from an array, to JSON that worked as a calendar-tree like structure that
-						had years composing of months composing of days that held an array of incidents (to simplify my data, I removed the time).</p>
+						had years composing of months composing of days that held an array of incidents (to simplify my data, I removed the time). I
+						then iterated through this object to filter and transform the data I was given into what can be plotted. I changed race into
+						color, level into size, found the y-position of the point based on the array size/index and kept the date the same because I
+						was using a d3 timescale. I stored these in a plain array to make it easier to iterate over. After the plotting, the viz
+						looked pretty muddy, so I removed the first few years of data (not a lot of variation anyways) and I sorted the original data
+						based on race before did all the other steps. <a href="https://github.com/voelkc/474-project1">See the code here!</a></p>
 				</div>
 				<div>
-					<h3>Insights</h3>
-					<p>The x-position vs y-position (amount of incidents per day), size and color of each dot are informative to answering different parts of my research question.</p>
+					<h3> Potential Insights</h3>
+					<p>The x-position vs y-position (amount of incidents per day), size and color of each dot are informative to answering different
+						parts of my research question. The first thing I see, and probably most people will too, was the large amounts of incidents
+						happening in Spring/Summer of 2020, this could be in response to the protests happening around the same time. The incidents
+						around this time do not have the race recorded very well either, as a majority of them are not specified, and a vast majority
+						of the ones that are, are white (a bit more so than normal, but this is not as important as the race-not-specified points).
+						There also seems to be a drop in overall incidents in late 2021. A potential reason why could be the drop in  Seattle police
+						officers (terminating fro failing to comply with vaccines, or leaving due to stress).</p>
 				</div>
 			</div>
 		</div >
