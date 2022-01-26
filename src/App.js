@@ -9,7 +9,7 @@ import * as d3 from 'd3'
 //console.log(data)
 
 const months = [
-	'Jan',
+	'',
 	'Feb',
 	'Mar',
 	'Apr',
@@ -21,7 +21,7 @@ const months = [
 	'Oct',
 	'Nov',
 	'Dec',
-	'Jan',
+	'',
 	'Feb',
 	'Mar',
 	'Apr',
@@ -33,7 +33,7 @@ const months = [
 	'Oct',
 	'Nov',
 	'Dec',
-	'Jan',
+	'',
 	'Feb',
 	'Mar',
 	'Apr',
@@ -228,7 +228,7 @@ function App() {
 						textAnchor: 'middle',
 					})}
 				/>
-
+				{/* I have these to block out the smaller year labels :/ */}
 				<rect
 					x={45}
 					y={chartSize - margin + 10}
@@ -290,17 +290,17 @@ function App() {
 						// the leftNeighbor will be far away, need to calculate with the height of ours.
 						const leftNeighbor = points[i - d.dayHeight - 1]
 						const rightNeighbor = points[i + 1]
-						console.log('leftNeighbor', leftNeighbor)
-						console.log('Me!', d)
-						console.log('rightNeighbor', rightNeighbor)
+						// console.log('leftNeighbor', leftNeighbor)
+						// console.log('Me!', d)
+						// console.log('rightNeighbor', rightNeighbor)
 						let leftNeighborHeight = leftNeighbor ? leftNeighbor.dayHeight : 0
 						let rightNeighborHeight = rightNeighbor ? rightNeighbor.dayHeight : 0
-						console.log(leftNeighborHeight)
-						console.log(d.dayHeight)
-						console.log(rightNeighborHeight)
+						// console.log(leftNeighborHeight)
+						// console.log(d.dayHeight)
+						// console.log(rightNeighborHeight)
 						if (d.dayHeight > leftNeighborHeight && d.dayHeight > rightNeighborHeight) {
 							return (
-								<svg>
+								<g>
 									<circle
 										cx={xScale(d.date)}
 										cy={yScale(d.height)}
@@ -315,7 +315,7 @@ function App() {
 									>
 										{d.date.getMonth().toString() + '/' + d.date.getDate()}
 									</text>
-								</svg>
+								</g>
 							)
 						}
 						return (<circle
@@ -376,7 +376,7 @@ function App() {
 			<h2 class="x-axislabel">
 				Date
 			</h2>
-			<div class="paragraphs">
+			{/* <div class="paragraphs">
 				<div>
 					<h3>Design Justification</h3>
 					<p>The question I am interested in answering is: How are incidents of police use-of-force distributed through time, race and
@@ -411,7 +411,15 @@ function App() {
 						There also seems to be a drop in overall incidents in late 2021. A potential reason why could be the drop in  Seattle police
 						officers (terminating fro failing to comply with vaccines, or leaving due to stress).</p>
 				</div>
-			</div>
+			</div> */}
+			<svg width={2000}
+				height={100}
+				stroke="white">
+				<rect
+					width={365 * 3}
+					height={4 * 10}
+					stroke="white" />
+			</svg>
 		</div >
 	)
 }
