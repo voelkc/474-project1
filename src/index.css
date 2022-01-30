@@ -13,15 +13,20 @@ body {
   color: whitesmoke;
 }
 
+h1 {
+  margin: auto;
+  width: 55%;
+}
+
 svg {
   margin-left: 20px;
 }
 
-h2 {
+h3 {
   font-size: 12pt;
 }
 
-h2.y-axislabel {
+h3.y-axislabel {
   transform: rotate(270deg);
   margin: 0px;
   padding: 0px;
@@ -30,7 +35,7 @@ h2.y-axislabel {
   left: -78px;
 }
 
-h2.x-axislabel {
+h3.x-axislabel {
   margin: 0px;
   padding: 0px;
   position: absolute;

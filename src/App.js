@@ -4,72 +4,22 @@ import data from './data'
 
 import { AxisLeft, AxisBottom } from "@visx/axis";
 import * as d3 from 'd3'
-
-
-//console.log(data)
-
-const months = [
-	'',
-	'Feb',
-	'Mar',
-	'Apr',
-	'May',
-	'June',
-	'Jul',
-	'Aug',
-	'Sept',
-	'Oct',
-	'Nov',
-	'Dec',
-	'',
-	'Feb',
-	'Mar',
-	'Apr',
-	'May',
-	'June',
-	'Jul',
-	'Aug',
-	'Sept',
-	'Oct',
-	'Nov',
-	'Dec',
-	'',
-	'Feb',
-	'Mar',
-	'Apr',
-	'May',
-	'June',
-	'Jul',
-	'Aug',
-	'Sept',
-	'Oct',
-	'Nov',
-	'Dec',
-
-]
+import * as dfd from "danfojs"
 
 function App() {
-
 	const chartSize = 630
 	const margin = 30
-	const legendPadding = 200
 	const labelThreshold = 20
 
-	// there is a problem when I set, it reruns the function so it just infinitely loops, but I cant access the data in the return otherwise because its outside of the .then
-	//setViz(<p>Loaded</p>)
-
-	//console.log(timeOrganizedData)
-	//download(timeOrganizedData.toString(), 'json.json', 'text/plain');
+	// cut data down to just 2014-2022
+	const cutData = [data['2018'], data['2019'], data['2020'], data['2021'], data['2022']]
 
 	// sort by race to make it easier to see trends
 	for (const year in data) {
-		//console.log(year)
 		const currentYear = data[year]
 		for (const month in currentYear) {
-			//console.log(month)
 			const currentMonth = currentYear[month]
 			for (const day in currentMonth) {
-				//console.log(currentMonth[day])
 				currentMonth[day].sort(function (a, b) {
 					var raceA = a.subjectRace.toUpperCase(); // ignore upper and lowercase
 					var raceB = b.subjectRace.toUpperCase(); // ignore upper and lowercase
@@ -86,21 +36,15 @@ function App() {
 	}
 
 	let points = [] // made up of objects that have x pos (dependent on the amount in that day), y pos (dependent on day), color, size
-
-	for (const year in data) {
-		//console.log(year)
-		const currentYear = data[year]
+	//populate points
+	for (const year in cutData) {
+		const currentYear = cutData[year]
 		for (const month in currentYear) {
-			//console.log(month)
 			const currentMonth = currentYear[month]
 			for (const day in currentMonth) {
-				//console.log(day)
 				const currentDay = currentMonth[day]
 				const incidentPoints = currentDay.map((currentIncident, i) => {
 					let point = {}
-					//console.log(currentIncident)
-					//"2014-04-02T07:58:00.000Z"
-
 					//size
 					if (currentIncident.incidentType.includes('1')) {
 						point.size = 1
@@ -109,7 +53,6 @@ function App() {
 					} else if (currentIncident.incidentType.includes('3')) {
 						point.size = 3
 					}
-
 					//color
 					if (currentIncident.subjectRace === 'Black or African American') {
 						point.color = 'rgb(255, 0, 0)' // red
@@ -140,7 +83,7 @@ function App() {
 					point.height = i
 
 					//x position?
-					point.date = new Date(new Date(currentIncident.occuredDate).toDateString()); // this messiness gets rid of the time
+					point.date = new Date(new Date(currentIncident.occurredDate).toDateString()); // this messiness gets rid of the time
 
 					point.dayHeight = currentDay.length - 1
 
@@ -148,14 +91,12 @@ function App() {
 					point.last = currentDay.length - 1 <= i
 					return point
 				})
-				//console.log(year, month, day, incidentPoints)
 				//append them to the points?
 				points.push(...incidentPoints)
 			}
 		}
 	}
 
-	console.log(points)
 
 	let largestCount = 0;
 	let firstDate = new Date() // now
@@ -193,13 +134,82 @@ function App() {
 				{text}
 			</text>
 		</svg>)
-
 	}
+
+
+	function populateHeatmap() {
+		let xPosition = 0 //determined by day of month
+		let yPosition = 0 // determined by year/month
+		let rectsToDisplay = [] //holds all the rectangles
+
+
+		for (const year in data) {
+			const currentYear = data[year]
+			for (const month in currentYear) {
+				const currentMonth = currentYear[month]
+				xPosition = 0
+				for (const day in currentMonth) {
+					xPosition = parseInt(day) - 1
+
+					let incidentsOnDay = currentMonth[day].length
+
+					// max amount of incidents is around 130ish
+					// show a lot as Red
+					// show a low amount to 0 as green: 255 - 
+					// around 10 should be like orangeish
+					// run out of green
+
+					rectsToDisplay.push(< rect
+						x={xPosition * 15 + 2}
+						y={yPosition * 15 + 2}
+						height={15}
+						width={15}
+						stroke={'black'}
+						fill={`rgb(${incidentsOnDay * 6}, ${0}, ${0})`}
+					/>)
+				}
+				yPosition++;
+			}
+		}
+		//return rectsToDisplay
+		return rectsToDisplay
+	}
+
+	// Ok im done working with this janky object, lets try out danfo.js
+	//Start by making a normal array.
+	let dataArrayified = []
+	for (const year in data) {
+		const currentYear = data[year]
+		for (const month in currentYear) {
+			const currentMonth = currentYear[month]
+			for (const day in currentMonth) {
+				let currentDay = currentMonth[day]
+				for (const incident of currentDay) {
+					incident.occurredDate = new Date(new Date(incident.occurredDate).toDateString());
+					dataArrayified.push(incident)
+				}
+			}
+		}
+	}
+	console.log(dataArrayified)
+	let dataDF = new dfd.DataFrame(dataArrayified)
+	dataDF.ctypes.print()
+	dataDF.sortValues("occurredDate", { inplace: true })
+	dataDF.groupby('officerID')
+	dataDF.print()
+
+
+
+
+
+
+	/***************************************************************************************************************************************************************/
 
 	return (
 		<div>
-			<h1>Seattle Police Department Use-of-Force Incidents (2018-2022)</h1>
-			<h2 class="y-axislabel">Incidents of Use-of-Force</h2>
+			<h1>Seattle Police Department Use-of-Force Incidents Data Exploration</h1>
+			<h2>Seattle Police Department Use-of-Force Incidents (2018-2022)</h2>
+			<h3 className="y-axislabel">Incidents of Use-of-Force</h3>
 			<svg
 				width={chartSize * 3}
 				height={chartSize}>
@@ -261,7 +271,6 @@ function App() {
 					fill='black'
 				/>
 
-
 				<AxisBottom
 					top={chartSize - margin}
 					left={margin}
@@ -286,18 +295,11 @@ function App() {
 
 
 				{points.map((d, i) => {
-					if (d.height > labelThreshold && d.last) { // if the height is above threshold, and its the last one for the day, and its taller than its neighbors.
-						// the leftNeighbor will be far away, need to calculate with the height of ours.
+					if (d.height > labelThreshold && d.last) {
 						const leftNeighbor = points[i - d.dayHeight - 1]
 						const rightNeighbor = points[i + 1]
-						// console.log('leftNeighbor', leftNeighbor)
-						// console.log('Me!', d)
-						// console.log('rightNeighbor', rightNeighbor)
 						let leftNeighborHeight = leftNeighbor ? leftNeighbor.dayHeight : 0
 						let rightNeighborHeight = rightNeighbor ? rightNeighbor.dayHeight : 0
-						// console.log(leftNeighborHeight)
-						// console.log(d.dayHeight)
-						// console.log(rightNeighborHeight)
 						if (d.dayHeight > leftNeighborHeight && d.dayHeight > rightNeighborHeight) {
 							return (
 								<g>
@@ -373,53 +375,38 @@ function App() {
 				{legendCircle(chartSize * 2.7 + 10, margin + 195, 2, 'rgb(170, 170, 170)', 'Level 2')}
 				{legendCircle(chartSize * 2.7 + 10, margin + 210, 3, 'rgb(170, 170, 170)', 'Level 3')}
 			</svg>
-			<h2 class="x-axislabel">
+			<h3 className="x-axislabel">
 				Date
-			</h2>
-			{/* <div class="paragraphs">
-				<div>
-					<h3>Design Justification</h3>
-					<p>The question I am interested in answering is: How are incidents of police use-of-force distributed through time, race and
-						level or severity of force used? Because I want to represent each individual incident of use-of-force (because of the data
-						density of each incident), and show the accumulation of these incidents throughout time, I decided to use a dot plot. Each
-						dot represents one incident, its size is determined by its severity, color determined by race of the subject, x-position
-						determined by time and the y-positions is to show the aggregated incidents on that day. This allows to show trends in my
-						three specified dimensions. Because there are so many data points, and I have limited space they got pretty scrunched
-						together, which is not a huge issue in identifying trends, but can be tough to look at specific points. I lowered the opacity
-						a bit to help with this, but still is a constraint i am struggling with. I also placed date labels at the peaks of days with
-						especially more incidents to draw attention and inform the viewer.  </p>
-				</div>
-				<div>
-					<h3>Data Transformation Description</h3>
-					<p>To answer my question, certain fields for each datum were important for me to understand,
-						these were the date, subjectRace and level of use-of-force. To make the data suitable for the dot plot, I needed to organize
-						it by its time. I first started by moving the data from an array, to JSON that worked as a calendar-tree like structure that
-						had years composing of months composing of days that held an array of incidents (to simplify my data, I removed the time). I
-						then iterated through this object to filter and transform the data I was given into what can be plotted. I changed race into
-						color, level into size, found the y-position of the point based on the array size/index and kept the date the same because I
-						was using a d3 timescale. I stored these in a plain array to make it easier to iterate over. After the plotting, the viz
-						looked pretty muddy, so I removed the first few years of data (not a lot of variation anyways) and I sorted the original data
-						based on race before did all the other steps. <a href="https://github.com/voelkc/474-project1">See the code here!</a></p>
-				</div>
-				<div>
-					<h3> Potential Insights</h3>
-					<p>The x-position vs y-position (amount of incidents per day), size and color of each dot are informative to answering different
-						parts of my research question. The first thing I see, and probably most people will too, was the large amounts of incidents
-						happening in Spring/Summer of 2020, this could be in response to the protests happening around the same time. The incidents
-						around this time do not have the race recorded very well either, as a majority of them are not specified, and a vast majority
-						of the ones that are, are white (a bit more so than normal, but this is not as important as the race-not-specified points).
-						There also seems to be a drop in overall incidents in late 2021. A potential reason why could be the drop in  Seattle police
-						officers (terminating fro failing to comply with vaccines, or leaving due to stress).</p>
-				</div>
-			</div> */}
-			<svg width={2000}
-				height={100}
-				stroke="white">
-				<rect
-					width={365 * 3}
-					height={4 * 10}
-					stroke="white" />
-			</svg>
+			</h3>
+			<div style={{ 'marginTop': "50px", 'marginLeft': '30px' }}>
+				<h2>Heatmap Time</h2>
+				<svg width={31 * 15 + 4}
+					height={(12 * 7 + 10) * 15 + 4}
+					stroke="white">
+					<rect
+						width={31 * 15 + 4}
+						height={(12 * 7 + 10) * 15 + 4}
+						stroke="white" />v
+					{populateHeatmap()}
+					{ }
+				</svg>
+				<p>
+					Hmm this is not very helpful. Its also too big and hard to read, doesn't do a great job of showing trends either, maybe shows when there are larger amounts of time. Maybe we do it by month. 12*9
+				</p>
+			</div>
+			<div>
+				<h2>Could do a barcode, but plotting the count of each day on each one...so many aggregates Could show generally how outliers work, and if there is a big space between them.</h2>
+			</div>
+			<div>
+				<h2>Group By Office ID</h2>
+			</div>
+			<div>
+				<h2>Group By Race</h2>
+			</div>
+			<div>
+				<h2>Group By Location, need a map key or something to understand better</h2>
+			</div>
+
 		</div >
 	)
 }
