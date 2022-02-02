@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './index.css'
 import data from './data'
 
@@ -191,16 +191,42 @@ function App() {
 			}
 		}
 	}
-	console.log(dataArrayified)
+	//console.log(dataArrayified)
 	let dataDF = new dfd.DataFrame(dataArrayified)
-	dataDF.ctypes.print()
+	//dataDF.ctypes.print()
 	dataDF.sortValues("occurredDate", { inplace: true })
-	dataDF.groupby('officerID')
-	dataDF.print()
+	//dataDF.print()
+	let grpOfficer = dataDF.groupby(['officerID'])
+	let grpOfficerIncident = grpOfficer.col(['incidentNum'])
+	let officerIncidentCount = grpOfficerIncident.count()
+	officerIncidentCount.sortValues('incidentNum_count', { inplace: true })
+
+	// make a histogram of number of officers and the number of UOFs they have been involved in.
+	// buckets should be groups of 10s (or maybe 5s) moving from 0(there will never be 0s) to 100
+
+	// could filter on white, so then i see white and total, can calculate the ratio of white vs non-white UOF (not UFO sadly)
+	//.addColumn()
+	// i will need to removed all of the unspecified, then do white vs poc (maybe do white, vs poc vs nonspecified???)
+	//so what is this?
+	let whiteQuery = dataDF.query(dataDF['subjectRace'].eq('White'))
+	let notSpecQuery = dataDF.query(dataDF['subjectRace'].eq('ZZZNot Specified'))
+	let pocQuery = dataDF.query(dataDF['subjectRace'].ne('ZZZNot Specified').and(dataDF['subjectRace'].ne('White')))
+	console.log(whiteQuery.shape)
+	console.log(notSpecQuery.shape)
+	console.log(pocQuery.shape)
+	console.log(dataDF.shape) // so this looks right, data is cut significantly
+	whiteQuery.print() // but here there are non-white entries showing up???
+	notSpecQuery.print() // hmmmm
+	pocQuery.print()
+	//grpOfficer.print()
 
 
+	// could probably do something involving the use of force for each officer as well
 
-
+	// Plotting the danfo plots, should eventually make my own out of them because these dont look great/cohesive
+	useEffect(() => {
+		officerIncidentCount['incidentNum_count'].plot('plot_div').hist()
+	}, [])
 
 
 	/***************************************************************************************************************************************************************/
@@ -399,12 +425,32 @@ function App() {
 			</div>
 			<div>
 				<h2>Group By Office ID</h2>
-			</div>
-			<div>
-				<h2>Group By Race</h2>
+				<div id="plot_div" style={{ 'width': '800px' }}></div>
+				<div className="code-snippet">
+					<p>
+						There can be a lot of factors at play to describe some outliers, officers spend different amount of times in the force, in the field and differnt roles in that force.
+					</p>
+					<p>
+						╔═════╤═══════════╤══════════════════╗<br />
+						║     │ officerID │incidentNum_count ║<br />
+						╟─────┼───────────┼──────────────────╢<br />
+						║ 862 │ 2099      │ 62               ║<br />
+						╟─────┼───────────┼──────────────────╢<br />
+						║ 581 │ 1604      │ 63               ║<br />
+						╟─────┼───────────┼──────────────────╢<br />
+						║ 718 │ 1750      │ 71               ║<br />
+						╟─────┼───────────┼──────────────────╢<br />
+						║ 639 │ 1665      │ 76               ║<br />
+						╟─────┼───────────┼──────────────────╢<br />
+						║ 94  │ 456       │ 93               ║<br />
+						╚═════╧═══════════╧══════════════════╝<br />
+					</p>
+				</div>
+
 			</div>
 			<div>
 				<h2>Group By Location, need a map key or something to understand better</h2>
+				<p>The data is only precise to police structure location, not to actual GPS or spatial point. Would be great to do a chlorpleth, but would be difficult probably.</p>
 			</div>
 
 		</div >
