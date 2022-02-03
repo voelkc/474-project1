@@ -7,7 +7,7 @@ import * as d3 from 'd3'
 import * as dfd from "danfojs"
 
 function App() {
-	const chartSize = 630
+	const chartSize = 315
 	const margin = 30
 	const labelThreshold = 20
 
@@ -47,11 +47,11 @@ function App() {
 					let point = {}
 					//size
 					if (currentIncident.incidentType.includes('1')) {
-						point.size = 1
+						point.size = .5
 					} else if (currentIncident.incidentType.includes('2')) {
-						point.size = 2
+						point.size = 1
 					} else if (currentIncident.incidentType.includes('3')) {
-						point.size = 3
+						point.size = 1.5
 					}
 					//color
 					if (currentIncident.subjectRace === 'Black or African American') {
@@ -122,15 +122,15 @@ function App() {
 	function legendCircle(x, y, size, color, text) {
 		return (<svg>
 			<circle
-				cx={x + 5}
+				cx={x + 2.5}
 				cy={y}
 				r={size}
 				fill={color} />
 			<text
-				x={x + 10}
-				y={y + 3}
+				x={x + 5}
+				y={y + 1.5}
 				fill="white"
-				fontSize={11}>
+				fontSize={5}>
 				{text}
 			</text>
 		</svg>)
@@ -234,176 +234,286 @@ function App() {
 	return (
 		<div>
 			<h1>Seattle Police Department Use-of-Force Incidents Data Exploration</h1>
-			<h2>Seattle Police Department Use-of-Force Incidents (2018-2022)</h2>
-			<h3 className="y-axislabel">Incidents of Use-of-Force</h3>
-			<svg
-				width={chartSize * 3}
-				height={chartSize}>
+			<p>
+				This data exploration takes a look at the Seattle Police Department's uses of force (use-of-forces or UOFs (sadly not UFOs)). Police
+				brutality, especially against groups it disproportionately affects, has dominated national news, protests and movements for decades.
+				This exploration dives deeper into SPD's relationship with police violence.  Data is sourced from the
+				<a target="_blank" href="https://data.seattle.gov/Public-Safety/Use-Of-Force/ppi5-g2bj"> City of Seattle Open Data Program</a>.
+			</p>
 
-				<AxisLeft
-					left={margin}
-					scale={yScale}
-					stroke="white" tickStroke='white'
-					tickLabelProps={() => ({
-						fill: 'white',
-						fontSize: 11,
-						textAnchor: 'middle',
-					})} />
-				<AxisBottom
-					top={chartSize - margin}
-					left={margin}
-					scale={xScale}
-					numTicks={30}
-					tickStroke="white"
-					stroke="white"
-					labelClassName="label-text"
-					//tickValues={months}
-					tickLabelProps={() => ({
-						fill: 'white',
-						fontSize: 6,
-						textAnchor: 'middle',
-					})}
-				/>
-				{/* I have these to block out the smaller year labels :/ */}
-				<rect
-					x={45}
-					y={chartSize - margin + 10}
-					width={30}
-					height={10}
-					fill='black'
-				/>
+			<h2>Understanding the Data</h2>
+			<p> The given CSV has 11 columns, describing the officer, subject (citizen involved), location, date & time, and degree of force used.
+				Most of these fields are pretty self-explanatory, though some needed some research. Looking at the <code>Incident_Type</code> shows what level
+				of force was used during the UOF, but its not clear what each level means. From the
+				<a href="https://www.seattle.gov/police-manual/title-8---use-of-force/8050---use-of-force-definitions" target="_blank"> SPD police manual</a> I found some appropriate definitions for these terms: </p>
 
-				<rect
-					x={510}
-					y={chartSize - margin + 10}
-					width={30}
-					height={10}
-					fill='black'
-				/>
+			<div className='horizontal-group'>
+				<div className='code-snippet left'>
+					<p>
+						<b>Type I</b> – Force that causes transitory pain or the complaint of transitory pain <br />
+						Other examples include:<br />
+						- Use of a hobble restraint<br />
+						- Deployment of stationary tire deflation device with confirmed contact and deflation of tires<br />
+						- Deployment of a blast ball away from people (bang-out), or<br />
+						- Pointing a firearm at a person<br />
+					</p>
+				</div>
 
-				<rect
-					x={973}
-					y={chartSize - margin + 10}
-					width={30}
-					height={10}
-					fill='black'
-				/>
+				<div className='code-snippet left'>
+					<p>
+						<b>Type II</b> – Force that causes or is reasonably expected to cause physical injury greater than transitory pain but less than great or substantial bodily harm.<br />
+						The use of any of the following weapons or instruments is a Type II:<br />
+						- TASER<br />
+						- OC spray<br />
+						- Impact weapon<br />
+						- Deployment of a canine<br />
+					</p>
+				</div>
 
-				<rect
-					x={1435}
-					y={chartSize - margin + 10}
-					width={30}
-					height={10}
-					fill='black'
-				/>
+				<div className='code-snippet left'>
+					<p>
+						<b>Type III</b> – Force that causes or is reasonably expected to cause, great bodily harm, substantial bodily harm, loss of consciousness, or death. <br />
+						The use of impact weapon strikes to the head is a Type III<br />
+					</p>
+				</div>
+			</div>
+			<p>It is worth noting that Level 3's in the dataset are accompanied by the acronym "OIS", which I believe is officer involved shooting.
+				Its not clear how perfectly the definitions given, and the data entries map, but generally Level 1 is to aid in arrest, Level 2 is
+				more liberal violence that can cause injury, and Level 3 is major bodily harm or lethal force.</p>
+			<p>A potential issue I am seeing in the dataset is missing values. Automated values (like IDs), the officer ID and context values
+				(time and place), are almost always available, sometimes lacking the more precise location data (possibly being due to overlapping
+				location, confusing location or reporting officer being lazy). Values that are most likely to be missing are ones that describe the
+				subject (race and gender), which makes it more difficult to find relationships regarding those factors. </p>
+			<p>The table looks like this:</p>
 
-				<AxisBottom
-					top={chartSize - margin}
-					left={margin}
-					scale={xScale}
-					numTicks={4}
-					tickStroke="white"
-					stroke="white"
-					labelClassName="label-text"
-					tickLabelProps={() => ({
-						fill: 'white',
-						fontSize: 12,
-						textAnchor: 'middle',
-					})}
-				/>
-				<text
-					x={chartSize - margin - 50}
-					y={chartSize * 3 / 2}
-					fill="red"
-					fontSize={8}>
-					Date
-				</text>
+			<div className='code-snippet'>
+				<table>
+					<tr>
+						<th className='emphasis'>Field Name</th>
+						<th>ID</th>
+						<th>Incident_Num</th>
+						<th>Incident_Type</th>
+						<th>Occurred_date_time</th>
+						<th>Precinct</th>
+						<th>Sector</th>
+						<th>Beat</th>
+						<th>Officer_ID</th>
+						<th>Subject_ID</th>
+						<th>Subject_Race</th>
+						<th>subjectGender</th>
+					</tr>
+					<tr>
+						<td className='emphasis'>Description</td>
+						<td>Incident ID</td>
+						<td>Other ID</td>
+						<td>Degree of Force Used</td>
+						<td>Incident Date/Time</td>
+						<td>General Location</td>
+						<td>More Specific Location</td>
+						<td>Most Specific Location</td>
+						<td>Officer ID</td>
+						<td>Subject ID</td>
+						<td>Race of Subject</td>
+						<td>Gender of Subject</td>
+					</tr>
+					<tr>
+						<td className='emphasis'>Data Type</td>
+						<td>String</td>
+						<td>Number</td>
+						<td>Categorical String</td>
+						<td>String {'->'} Date</td>
+						<td>Categorical String</td>
+						<td>Categorical String</td>
+						<td>Categorical String</td>
+						<td>Number</td>
+						<td>Number</td>
+						<td>Categorical String</td>
+						<td>Categorical String</td>
+					</tr>
+					<tr>
+						<td className='emphasis'>Example</td>
+						<td>2014UOF-0001-1377-203</td>
+						<td>251</td>
+						<td>Level 1 - Use of Force</td>
+						<td>06/07/2014 12:09:00 AM</td>
+						<td>East</td>
+						<td>CHARLIE</td>
+						<td>C2</td>
+						<td>1594</td>
+						<td>203</td>
+						<td>Black or African American</td>
+						<td>Male</td>
+					</tr>
+				</table>
+			</div>
+
+			<h2>Question 1: What is the distribution of UOFs over time?</h2>
+
+			<div className='horizontal-group'>
+				<div style={{ marginLeft: "150px" }}>
+					<p>The first transformation I made to this data, was to convert it from a CSV to a JSON <br />that I structured by time. I did this by looping
+						through the csv, and adding entries to an array<br /> indexed first by year, then by month, and then by day. I did this in order to
+						quickly create<br /> visualizations that looked at the distribution of UOFs over time. The data looks something like this:</p>
+				</div>
+				<div className='code-snippet left'>
+					<p>
+						"2014": &#123; <br />
+						&ensp;"June": &#123;<br />
+						&ensp;&ensp;"1": [&#123;<br />
+						&ensp;&ensp;&ensp;"id": "2014UOF-0005-1473-172",<br />
+						&ensp;&ensp;&ensp;"incidentNum": "223",<br />
+						&ensp;&ensp;&ensp;"incidentType": "Level 1 - Use of Force",<br />
+						&ensp;&ensp;&ensp;"occurredDate": "2014-06-01T23:03:00.000Z",<br />
+						&ensp;&ensp;&ensp;"precinct": "South",<br />
+						&ensp;&ensp;&ensp;"sector": "ROBERT",<br />
+						&ensp;&ensp;&ensp;"beat": "R1",<br />
+						&ensp;&ensp;&ensp;"officerID": "1145",<br />
+						&ensp;&ensp;&ensp;"subjectID": "172",<br />
+						&ensp;&ensp;&ensp;"subjectRace": "Black or African American",<br />
+						&ensp;&ensp;&ensp;"subjectGender": "Male"&#125;,<br />
+						&ensp;&ensp;...],<br />
+						&ensp;...&#125;,<br />
+						...&#125;,<br />
+					</p>
+				</div>
+			</div>
+
+			<div className='plot'>
+				<h2>Seattle Police Department Use-of-Force Incidents (2018-2022)</h2>
+				<svg
+					width={chartSize * 3}
+					height={chartSize}>
+
+					<AxisLeft
+						left={margin}
+						scale={yScale}
+						stroke="white" tickStroke='white'
+						tickLabelProps={() => ({
+							fill: 'white',
+							fontSize: 11,
+							textAnchor: 'middle',
+						})} />
+					<AxisBottom
+						top={chartSize - margin}
+						left={margin}
+						scale={xScale}
+						numTicks={30}
+						tickStroke="white"
+						stroke="white"
+						labelClassName="label-text"
+						//tickValues={months}
+						tickLabelProps={() => ({
+							fill: 'white',
+							fontSize: 6,
+							textAnchor: 'middle',
+						})}
+					/>
+
+					<AxisBottom
+						top={chartSize - margin}
+						left={margin}
+						scale={xScale}
+						numTicks={4}
+						tickStroke="white"
+						stroke="white"
+						labelClassName="label-text"
+						tickLabelProps={() => ({
+							fill: 'white',
+							fontSize: 12,
+							textAnchor: 'middle',
+						})}
+					/>
+					<text
+						x={chartSize - margin - 50}
+						y={chartSize * 3 / 2}
+						fill="red"
+						fontSize={8}>
+						Date
+					</text>
 
 
-				{points.map((d, i) => {
-					if (d.height > labelThreshold && d.last) {
-						const leftNeighbor = points[i - d.dayHeight - 1]
-						const rightNeighbor = points[i + 1]
-						let leftNeighborHeight = leftNeighbor ? leftNeighbor.dayHeight : 0
-						let rightNeighborHeight = rightNeighbor ? rightNeighbor.dayHeight : 0
-						if (d.dayHeight > leftNeighborHeight && d.dayHeight > rightNeighborHeight) {
-							return (
-								<g>
-									<circle
-										cx={xScale(d.date)}
-										cy={yScale(d.height)}
-										r={d.size}
-										fill={d.color}
-										style={{ opacity: .8 }} />
-									<text
-										x={xScale(d.date) - 8}
-										y={yScale(d.height) - 3}
-										fill="white"
-										fontSize={8}
-									>
-										{d.date.getMonth().toString() + '/' + d.date.getDate()}
-									</text>
-								</g>
-							)
+					{points.map((d, i) => {
+						if (d.height > labelThreshold && d.last) {
+							const leftNeighbor = points[i - d.dayHeight - 1]
+							const rightNeighbor = points[i + 1]
+							let leftNeighborHeight = leftNeighbor ? leftNeighbor.dayHeight : 0
+							let rightNeighborHeight = rightNeighbor ? rightNeighbor.dayHeight : 0
+							if (d.dayHeight > leftNeighborHeight && d.dayHeight > rightNeighborHeight) {
+								return (
+									<g>
+										<circle
+											cx={xScale(d.date)}
+											cy={yScale(d.height)}
+											r={d.size}
+											fill={d.color}
+											style={{ opacity: .8 }} />
+										<text
+											x={xScale(d.date) - 8}
+											y={yScale(d.height) - 3}
+											fill="white"
+											fontSize={8}
+										>
+											{d.date.getMonth().toString() + '/' + d.date.getDate()}
+										</text>
+									</g>
+								)
+							}
+							return (<circle
+								cx={xScale(d.date)}
+								cy={yScale(d.height)}
+								r={d.size}
+								fill={d.color}
+								style={{ opacity: .8 }} />)
+						} else {
+							return (<circle
+								cx={xScale(d.date)}
+								cy={yScale(d.height)}
+								r={d.size}
+								fill={d.color}
+								style={{ opacity: .8 }} />)
 						}
-						return (<circle
-							cx={xScale(d.date)}
-							cy={yScale(d.height)}
-							r={d.size}
-							fill={d.color}
-							style={{ opacity: .8 }} />)
-					} else {
-						return (<circle
-							cx={xScale(d.date)}
-							cy={yScale(d.height)}
-							r={d.size}
-							fill={d.color}
-							style={{ opacity: .8 }} />)
-					}
 
-				})}
-				{/*LEGEND*/}
-				<rect
-					y={margin}
-					x={chartSize * 2.7}
-					width={chartSize * .3}
-					height={chartSize * .4 - 30}
-					stroke="white" />
-				<text
-					x={chartSize * 2.7 + 10}
-					y={margin + 20}
-					fill="white"
-					fontSize={18}>
-					Legend
-				</text>
-				<text
-					x={chartSize * 2.7 + 10}
-					y={margin + 35}
-					fill="white"
-					fontSize={14}>
-					Race
-				</text>
-				<text
-					x={chartSize * 2.7 + 10}
-					y={margin + 165}
-					fill="white"
-					fontSize={14}>
-					Use-of-Force Severity
-				</text>
-				{legendCircle(chartSize * 2.7 + 10, margin + 50, 3, 'rgb(255, 0, 0)', 'Black')}
-				{legendCircle(chartSize * 2.7 + 10, margin + 65, 3, 'rgb(0, 255, 0)', 'White')}
-				{legendCircle(chartSize * 2.7 + 10, margin + 80, 3, 'rgb(0, 0, 255)', 'Asian')}
-				{legendCircle(chartSize * 2.7 + 10, margin + 95, 3, 'rgb(255, 255, 0)', 'Hispanic or Latino')}
-				{legendCircle(chartSize * 2.7 + 10, margin + 110, 3, 'rgb(255, 0, 255)', 'American Indian/Alaska Native')}
-				{legendCircle(chartSize * 2.7 + 10, margin + 125, 3, 'rgb(0, 255, 255)', 'Nat Hawaiian/Oth Pac Islander')}
-				{legendCircle(chartSize * 2.7 + 10, margin + 140, 3, 'rgb(170, 170, 170)', 'Not Specified')}
-				{legendCircle(chartSize * 2.7 + 10, margin + 180, 1, 'rgb(170, 170, 170)', 'Level 1')}
-				{legendCircle(chartSize * 2.7 + 10, margin + 195, 2, 'rgb(170, 170, 170)', 'Level 2')}
-				{legendCircle(chartSize * 2.7 + 10, margin + 210, 3, 'rgb(170, 170, 170)', 'Level 3')}
-			</svg>
-			<h3 className="x-axislabel">
-				Date
-			</h3>
+					})}
+					{/*LEGEND*/}
+					<rect
+						y={margin}
+						x={chartSize * 2.7}
+						width={chartSize * .3}
+						height={chartSize * .4 - 30}
+						stroke="white" />
+					<text
+						x={chartSize * 2.7 + 10}
+						y={margin + 20}
+						fill="white"
+						fontSize={18}>
+						Legend
+					</text>
+					<text
+						x={chartSize * 2.7 + 10}
+						y={margin + 35}
+						fill="white"
+						fontSize={14}>
+						Race
+					</text>
+					<text
+						x={chartSize * 2.7 + 10}
+						y={margin + 165}
+						fill="white"
+						fontSize={14}>
+						Use-of-Force Severity
+					</text>
+					{legendCircle(chartSize * 2.7 + 10, margin + 50, 3, 'rgb(255, 0, 0)', 'Black')}
+					{legendCircle(chartSize * 2.7 + 10, margin + 65, 3, 'rgb(0, 255, 0)', 'White')}
+					{legendCircle(chartSize * 2.7 + 10, margin + 80, 3, 'rgb(0, 0, 255)', 'Asian')}
+					{legendCircle(chartSize * 2.7 + 10, margin + 95, 3, 'rgb(255, 255, 0)', 'Hispanic or Latino')}
+					{legendCircle(chartSize * 2.7 + 10, margin + 110, 3, 'rgb(255, 0, 255)', 'American Indian/Alaska Native')}
+					{legendCircle(chartSize * 2.7 + 10, margin + 125, 3, 'rgb(0, 255, 255)', 'Nat Hawaiian/Oth Pac Islander')}
+					{legendCircle(chartSize * 2.7 + 10, margin + 140, 3, 'rgb(170, 170, 170)', 'Not Specified')}
+					{legendCircle(chartSize * 2.7 + 10, margin + 180, 1, 'rgb(170, 170, 170)', 'Level 1')}
+					{legendCircle(chartSize * 2.7 + 10, margin + 195, 2, 'rgb(170, 170, 170)', 'Level 2')}
+					{legendCircle(chartSize * 2.7 + 10, margin + 210, 3, 'rgb(170, 170, 170)', 'Level 3')}
+				</svg>
+			</div>
 			<div style={{ 'marginTop': "50px", 'marginLeft': '30px' }}>
 				<h2>Heatmap Time</h2>
 				<svg width={31 * 15 + 4}
@@ -426,10 +536,10 @@ function App() {
 			<div>
 				<h2>Group By Office ID</h2>
 				<div id="plot_div" style={{ 'width': '800px' }}></div>
+				<p>
+					There can be a lot of factors at play to describe some outliers, officers spend different amount of times in the force, in the field and differnt roles in that force.
+				</p>
 				<div className="code-snippet">
-					<p>
-						There can be a lot of factors at play to describe some outliers, officers spend different amount of times in the force, in the field and differnt roles in that force.
-					</p>
 					<p>
 						╔═════╤═══════════╤══════════════════╗<br />
 						║     │ officerID │incidentNum_count ║<br />
