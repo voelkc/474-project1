@@ -2,15 +2,19 @@ import React from "react";
 
 export function Map(props) {
 
+	//x={410}
+	//y={10}
+
 	let makeGradient2 = () => {
+		console.log('hi i am firing')
 		let gradientSteps = []
 		for (let i = 0; i < 511; i++) {
 			gradientSteps.push(<rect
 				fill={`rgb(${i - 255}, 0, ${255 - i})`}
-				x={i * .25 + 386}
-				y={80}
-				width={.5}
-				height={50}
+				x={i * .15 + 412}
+				y={30}
+				width={.15}
+				height={20}
 				stroke='none'
 			/>)
 		}
@@ -597,9 +601,34 @@ export function Map(props) {
 				<rect x="362.69" y="383.19" style={{ fill: 'none' }} width="51.77" height="46.11" />
 				<text transform="matrix(1 0 0 1 362.6855 391.7085)"><tspan x="0" y="0" style={{ fill: '#FFFFFF', fontFamily: 'MyriadPro-Regular', fontSize: '12px' }}>East </tspan><tspan x="0" y="14.4" style={{ fill: '#FFFFFF', fontFamily: 'MyriadPro-Regular', fontSize: '12px' }}>Precinct</tspan></text>
 			</g>
-			<rect>
+			<rect
+				x={410}
+				y={10}
+				width={80}
+				height={90}
+				stroke="white"
+				fill="none" />
+			<text x={425}
+				y={24}
+			>Legend</text>
+			<text x={410}
+				y={70}
+			>0</text>
+			<text x={460}
+				y={70}
+			>600</text>
+			{makeGradient2()}
+			<line
+				x1={425}
+				y1={65}
+				x2={455}
+				y2={65}
+				stroke='white'
+			/>
+			<text x={412}
+				y={88}
+			># Of UOFs</text>
 
-			</rect>
 		</svg>
 	</div >)
 }
