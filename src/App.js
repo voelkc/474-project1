@@ -1231,6 +1231,7 @@ const blueScale = d3.scaleLinear()
 				of UOFs, as well as which beats have higher amounts of UOFs.
 			</p>
 			<div className='plot'>
+				<h2># of Uses of Force in Seattle SPD Beats</h2>
 				<Map beatColors={beatFullData} />
 			</div>
 			<h3>Map</h3>
