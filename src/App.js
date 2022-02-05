@@ -1147,6 +1147,9 @@ const blueScale = d3.scaleLinear()
 				</plot>
 				<h3>Histogram</h3>
 				<p className='paragraph'>
+					I really tried to get this into SVG and make it look nice, but its 11:44PM on Friday and its looking not good, so Im reverting to what danfo is giving me. I want to fix this and make it look more cohesive and give it labels and everything :(
+					<br />
+					<br />
 					So looking at the amount of officers that are in each bin actually gives use a pretty clear shape. Most officers have had 2-3 UOFs, though
 					a lot have had just 1 too. After these points, the distribution follows a pretty aggressive exponential slope into the large outliers,
 					which are pretty crazy!
