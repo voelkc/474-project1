@@ -136,3 +136,28 @@ table .emphasis {
 .map {
   position: relative;
 }
+
+/*INTERACTIVITY*/
+
+.interactive-data-viz {
+  display: flex;
+  flex-direction: row;
+}
+
+.controller {
+  max-width: 250px;
+  border-color: white;
+  /* background-color: red; */
+  text-align: left;
+  padding-left: 20px;
+}
+
+.interactive-table table,
+th,
+td {
+  border: 1px solid;
+  border-color: rgb(148, 148, 148);
+  margin: 10px;
+  text-align: left;
+  border-collapse: collapse;
+}

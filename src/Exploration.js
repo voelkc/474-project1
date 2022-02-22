@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import './index.css'
 import data from './data'
 
@@ -9,8 +9,6 @@ import * as dfd from "danfojs"
 import { Map } from './Map';
 
 export function Exploration() {
-    const [count, setCount] = useState(0)
-
     const bigChartMultiplier = .70
     const chartSize = 630 * bigChartMultiplier
     const margin = 30
