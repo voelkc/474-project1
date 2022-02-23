@@ -7,10 +7,15 @@ export function Table(props) {
 
     const makeTable = () => {
         if (props.data !== undefined && props.data.length > 0) {
-            const displayData = props.data.slice(0, 100)
-            console.log(displayData)
-            const rows = displayData.map((incident) => {
-                return (<tr>
+
+            let displayData
+            if (props.data.length > 100) {
+                displayData = props.data.slice(0, 100)
+            } else {
+                displayData = props.data
+            }
+            const rows = displayData.map((incident, index) => {
+                return (<tr key={index}>
                     <td>{incident.id}</td>
                     <td>{incident.incidentNum}</td>
                     <td>{incident.incidentType}</td>
@@ -24,8 +29,8 @@ export function Table(props) {
                     <td>{incident.subjectGender}</td>
                 </tr>)
             })
-            console.log(rows)
-            console.log(typeof rows)
+            // console.log(rows)
+            // console.log(typeof rows)
             return (<table>
                 <thead>
                     <tr>
@@ -47,7 +52,7 @@ export function Table(props) {
                 </tbody>
             </table>)
         } else {
-            return <p>Loading Table...</p>
+            return <p>No Results</p>
         }
     }
 

@@ -161,3 +161,14 @@ td {
   text-align: left;
   border-collapse: collapse;
 }
+
+.date-label {
+  font-size: 14pt;
+  text-align: center;
+  margin-top: -5px;
+}
+
+.controller .input-group {
+  display: flex;
+  flex-direction: column;
+}

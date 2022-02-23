@@ -28,8 +28,7 @@ function App() {
 			}
 		}
 	}
-	console.log(data)
-	// Well that did not work very well...Would be coool to get live data but alas
+	// Well that did not work very well...Would be cooool to get live data but alas
 	// const fetchData = async () => {
 	// 	const response = await fetch("https://data.seattle.gov/resource/ppi5-g2bj.json")
 	// 	const resData = await response.json()

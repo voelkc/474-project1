@@ -10,74 +10,134 @@ export function InteractiveDataViz(props) {
     const [controls, setControls] = useState({
         x: 'time',
         y: 'incident-count',
-        filters: [],
+        filters: {
+            race: ['White', 'Black or African American', 'Asian', 'Hispanic or Latino', 'Nat Hawaiian/Oth Pac Islander', 'American Indian/Alaska Native', 'Not Specified'],
+            gender: ['Male', 'Female', 'Not Specified'],
+            type: ['Level 1 - Use of Force', 'Level 2 - Use of Force', 'Level 3 - Use of Force', 'Level 3 - OIS'],
+            precinct: ['North', 'East', 'West', 'South', 'Southwest', '-']
+        },
         timeFrame: [undefined, undefined], //min-max
         plotType: 'dot',
     })
-    console.log(props.data)
     let dataDF
     let cleanData
+    let plotData
 
 
     let fullMax = 1
     let fullMin = 0
 
     const changeTimeFrame = (newTimeFrame) => {
-        console.log('ohhhhh')
         let updatedControls = { ...controls }
         updatedControls.timeFrame = newTimeFrame
-        console.log(controls)
         setControls(updatedControls)
-        console.log('did I set the state?')
-        console.log(controls)
 
     }
+
+    const toggleFilter = (type, filter) => {
+        let updatedControls = { ...controls }
+        let updatedFilters = updatedControls.filters
+        if (type === 'race') {
+            if (updatedFilters.race.includes(filter)) {
+                updatedFilters.race.splice(updatedFilters.race.indexOf(filter), 1) // remove filter
+            } else {
+                updatedFilters.race.push(filter) // add filter
+            }
+        } else if (type === 'gender') {
+            if (updatedFilters.gender.includes(filter)) {
+                updatedFilters.gender.splice(updatedFilters.gender.indexOf(filter), 1) // remove filter
+            } else {
+                updatedFilters.gender.push(filter) // add filter
+            }
+        } else if (type === 'type') {
+            if (updatedFilters.type.includes(filter)) {
+                updatedFilters.type.splice(updatedFilters.type.indexOf(filter), 1) // remove filter
+            } else {
+                updatedFilters.type.push(filter) // add filter
+            }
+        } else if (type === 'precinct') {
+            if (updatedFilters.precinct.includes(filter)) {
+                updatedFilters.precinct.splice(updatedFilters.precinct.indexOf(filter), 1) // remove filter
+            } else {
+                updatedFilters.precinct.push(filter) // add filter
+            }
+        }
+        updatedControls.filters = updatedFilters
+        setControls(updatedControls) // send the update to state
+    }
+
 
     if (props.data !== undefined && props.data.length > 0) {
 
         //Sort the data before converting!!!!
         //By time
         cleanData = props.data.sort((a, b) => a.UTC - b.UTC)
-        console.log(cleanData)
 
         //Get fullMax and fullMin
         fullMin = cleanData[0].UTC
         fullMax = cleanData[cleanData.length - 1].UTC
-        console.log(fullMin, fullMax)
-        console.log(new Date(fullMin), new Date(fullMax))
-
 
         //Filter before converting
-        console.log('filtering')
         cleanData = cleanData.filter((incident) => {
-            if (controls.timeFrame !== undefined) {
-                if (controls.timeFrame[0] > incident.UTC) { // if min date is larger than incident date
+            // Check Date against minimum
+            if (controls.timeFrame[0] !== undefined) {
+                if (controls.timeFrame[0] >= incident.UTC) { // if min date is larger than incident date
                     return false // kill it
                 }
             }
 
-            if (controls.timeFrame !== undefined) {
-                if (controls.timeFrame[1] < incident.UTC) { // if max date is smaller than incident date
+            //Check date against maximum
+            if (controls.timeFrame[1] !== undefined) {
+                if (controls.timeFrame[1] <= incident.UTC) { // if max date is smaller than incident date
                     return false // kill it
                 }
+            }
+
+            //Check race against filters
+            if (!controls.filters.race.includes(incident.subjectRace)) { // if the filters dont include the race of incident
+                return false // kill it
+            }
+
+            //Check gender against filters
+            if (!controls.filters.gender.includes(incident.subjectGender)) { // if the filters dont include the race of incident
+                return false // kill it
+            }
+            //Check Type against filters
+            if (!controls.filters.type.includes(incident.incidentType)) { // if the filters dont include the race of incident
+                return false // kill it
+            }
+            //Check location against filters
+            if (!controls.filters.precinct.includes(incident.precinct)) { // if the filters dont include the race of incident
+                return false // kill it
             }
             return true
         })
 
-        dataDF = new dfd.DataFrame(cleanData)
-        dataDF.ctypes.print()
-        dataDF.print()
-        dataDF.tail(10).print()
+        cleanData = cleanData.map((incident) => {
+            incident.simpleDate = new Date(incident.occurredDate.getYear() + 1900, incident.occurredDate.getMonth(), incident.occurredDate.getDate())
+            return incident
+        })
 
+        dataDF = new dfd.DataFrame(cleanData)
+        //  dataDF.tail().print()
         //Do group by?
+        //TODO: make it grouped by date, officer or location for the three different types of charts
+        const grpDate = dataDF.groupby(['simpleDate']) // could really just change this from date to location to officer
+        const grpDateIncident = grpDate.col(['incidentNum'])
+        const grpDateIncidentCount = grpDateIncident.count()
+        //grpDateIncidentCount.print()
+        plotData = grpDateIncidentCount.values
     }
 
     return (
         <>
             <div className='interactive-data-viz'>
-                <Controller controls={controls} changeTimeFrame={changeTimeFrame} fullMin={fullMin} fullMax={fullMax} />
-                <Plot />
+                <Controller controls={controls} changeTimeFrame={changeTimeFrame} fullMin={fullMin} fullMax={fullMax} toggleFilter={toggleFilter} />
+                <div>
+                    <Plot data={cleanData} dataFDF={dataDF} plotData={plotData} />
+                    <Table data={cleanData} />
+                </div>
             </div>
-            < Table data={cleanData} />
+
         </>)
 }
