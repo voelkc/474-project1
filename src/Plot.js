@@ -10,7 +10,8 @@ import * as d3 from 'd3'
 export function Plot(props) {
     const width = window.innerWidth - 255
     const height = window.innerHeight - 100
-    const margin = 50
+    const axisMargin = 50
+    const nonAxisMargin = 15
     console.log(window.innerWidth, window.innerHeight)
 
     const data = props.data
@@ -27,17 +28,17 @@ export function Plot(props) {
     let maxDate = plotData[plotData.length - 1][0]
     let minDate = plotData[0][0]
 
-    const xScale = d3.scaleTime().domain([data[0].occurredDate, data[data.length - 1].occurredDate]).range([margin, width]) //domain is the time-data space, range is pixel space
-    const yScale = d3.scaleLinear().domain([0, maxCount]).range([height - margin, 0]) //domain is data space, range is pixel space
+    const xScale = d3.scaleTime().domain([data[0].occurredDate, data[data.length - 1].occurredDate]).range([axisMargin, width - nonAxisMargin]) //domain is the time-data space, range is pixel space
+    const yScale = d3.scaleLinear().domain([0, maxCount]).range([height - axisMargin, nonAxisMargin]) //domain is data space, range is pixel space
 
     const plotPoints = () => {
         const rects = plotData.map((incident, index) => {
             return (<svg key={index}>
                 <rect
                     x={xScale(incident[0])}
-                    y={yScale(incident[1]) - margin}
+                    y={yScale(incident[1]) - axisMargin}
                     width={0.1}
-                    height={yScale(incident[1]) - margin - margin}
+                    height={yScale(incident[1]) - axisMargin - axisMargin}
                     stroke={'white'}
                     fill={'white'}>
                 </rect>
@@ -69,18 +70,17 @@ export function Plot(props) {
     if (data.length > 1) {
         return (<div>
             <svg width={width}
-                height={height}
-                stroke="white">
+                height={height}>
                 <rect
                     x={0}
                     y={0}
                     width={width}
                     height={height}
                     fill="#202020"
-                    stroke="white" />
+                    rx={15} />
                 {plotPoints()}
                 <AxisLeft
-                    left={margin}
+                    left={axisMargin}
                     top={0}
                     labelOffset={30}
                     label={'# of UOF Incidents'}
@@ -93,7 +93,7 @@ export function Plot(props) {
                     })} />
                 <AxisBottom
                     left={0}
-                    top={height - margin}
+                    top={height - axisMargin}
                     labelOffset={10}
                     label={'Date'}
                     scale={xScale}
