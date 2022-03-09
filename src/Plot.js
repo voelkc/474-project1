@@ -32,13 +32,14 @@ export function Plot(props) {
     const yScale = d3.scaleLinear().domain([0, maxCount]).range([height - axisMargin, nonAxisMargin]) //domain is data space, range is pixel space
 
     const plotPoints = () => {
+
         const rects = plotData.map((incident, index) => {
             return (<svg key={index}>
                 <rect
                     x={xScale(incident[0])}
-                    y={yScale(incident[1]) - axisMargin}
+                    y={yScale(incident[1])}
                     width={0.1}
-                    height={yScale(incident[1]) - axisMargin - axisMargin}
+                    height={height - axisMargin - yScale(incident[1])}
                     stroke={'white'}
                     fill={'white'}>
                 </rect>
@@ -62,9 +63,8 @@ export function Plot(props) {
                     </svg>)
             }
         })
-
-        return points
-
+        // return [...rects, ...points] // returns both for debugging
+        return rects
     }
 
     if (data.length > 1) {
