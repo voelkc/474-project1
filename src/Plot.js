@@ -12,7 +12,6 @@ export function Plot(props) {
     const height = window.innerHeight - 100
     const axisMargin = 50
     const nonAxisMargin = 15
-    console.log(window.innerWidth, window.innerHeight)
 
     const data = props.data
     const plotData = props.plotData
@@ -24,7 +23,6 @@ export function Plot(props) {
             maxCount = date[1]
         }
     })
-    console.log(maxCount)
     let maxDate = plotData[plotData.length - 1][0]
     let minDate = plotData[0][0]
 
@@ -38,9 +36,9 @@ export function Plot(props) {
                 <rect
                     x={xScale(incident[0])}
                     y={yScale(incident[1])}
-                    width={0.1}
+                    width={1}
                     height={height - axisMargin - yScale(incident[1])}
-                    stroke={'white'}
+                    //stroke={'white'}
                     fill={'white'}>
                 </rect>
             </svg >)

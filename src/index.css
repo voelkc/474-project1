@@ -152,6 +152,12 @@ table .emphasis {
   padding-left: 20px;
 }
 
+.card-container {
+  background-color: #202020;
+  border-radius: 15px;
+  padding: 2px;
+}
+
 .interactive-table table,
 th,
 td {

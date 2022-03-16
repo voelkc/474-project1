@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 
 import * as dfd from "danfojs"
+import * as d3 from 'd3'
 
 import { Plot } from './Plot'
+import { OfficerPlot } from './OfficerPlot'
 import { Table } from './Table'
+import { Map } from './Map'
 import { Controller } from './Controller'
 
 export function InteractiveDataViz(props) {
@@ -17,7 +20,7 @@ export function InteractiveDataViz(props) {
             precinct: ['North', 'East', 'West', 'South', 'Southwest', '-']
         },
         timeFrame: [undefined, undefined], //min-max
-        plotType: 'dot',
+        plotType: 'officer',
     })
     let dataDF
     let cleanData
@@ -30,6 +33,13 @@ export function InteractiveDataViz(props) {
     const changeTimeFrame = (newTimeFrame) => {
         let updatedControls = { ...controls }
         updatedControls.timeFrame = newTimeFrame
+        setControls(updatedControls)
+
+    }
+
+    const changePlotType = (newPlotType) => {
+        let updatedControls = { ...controls }
+        updatedControls.plotType = newPlotType
         setControls(updatedControls)
 
     }
@@ -129,13 +139,25 @@ export function InteractiveDataViz(props) {
         plotData = grpDateIncidentCount.values
     }
 
+    const display = () => {
+        if (controls.plotType === 'plot') {
+            return <Plot data={cleanData} dataFDF={dataDF} plotData={plotData} />
+        } else if (controls.plotType === 'map') {
+            return <Map cleanData={cleanData} dataFDF={dataDF} />
+        } else if (controls.plotType === 'table') {
+            return <Table data={cleanData} />
+        } else if (controls.plotType === 'officer') {
+            return <OfficerPlot data={cleanData} dataFDF={dataDF} />
+        }
+        return <></>
+    }
+
     return (
         <>
             <div className='interactive-data-viz'>
-                <Controller controls={controls} changeTimeFrame={changeTimeFrame} fullMin={fullMin} fullMax={fullMax} toggleFilter={toggleFilter} />
+                <Controller controls={controls} changeTimeFrame={changeTimeFrame} fullMin={fullMin} fullMax={fullMax} toggleFilter={toggleFilter} changePlotType={changePlotType} />
                 <div>
-                    <Plot data={cleanData} dataFDF={dataDF} plotData={plotData} />
-                    <Table data={cleanData} />
+                    {display()}
                 </div>
             </div>
 

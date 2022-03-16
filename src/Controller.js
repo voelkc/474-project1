@@ -8,9 +8,6 @@ export function Controller(props) {
     const [min, setMin] = useState(new Date(props.fullMin))
     const [max, setMax] = useState(new Date(props.fullMax))
 
-    let controls = props.controls
-    let setControls = props.setControls
-
 
     // Sliding bar stuff
     const onUpdate = update => {
@@ -56,8 +53,29 @@ export function Controller(props) {
             <h2>Y-Axis</h2>
             <label>Y-Axis</label>
             <input type="radio"></input> */}
-            <h2>Date Range</h2>
 
+            <h2>Display</h2>
+            <div className="input-group">
+                <div className="input">
+                    <input type="radio" onChange={() => { props.changePlotType('plot') }} checked={props.controls.plotType == 'plot'}></input>
+                    <label>Time Plot</label>
+                </div>
+                <div className="input">
+                    <input type="radio" onChange={() => { props.changePlotType('officer') }} checked={props.controls.plotType == 'officer'}></input>
+                    <label>Officer Plot</label>
+                </div>
+                <div className="input">
+                    <input type="radio" onChange={() => { props.changePlotType('map') }} checked={props.controls.plotType == 'map'}></input>
+                    <label>Map</label>
+                </div>
+                <div className="input">
+                    <input type="radio" onChange={() => { props.changePlotType('table') }} checked={props.controls.plotType == 'table'}></input>
+                    <label>Table</label>
+                </div>
+            </div>
+
+
+            <h2>Date Range</h2>
             <Slider
                 rootStyle={sliderStyle}
                 domain={[props.fullMin, props.fullMax]}
@@ -133,9 +151,6 @@ export function Controller(props) {
                     <input type="checkbox" onChange={() => { props.toggleFilter('race', 'Not Specified') }} checked={props.controls.filters.race.includes('Not Specified')}></input>
                     <label>Not Specified</label>
                 </div>
-                <div className="input">
-
-                </div>
             </div>
             <h3>Gender</h3>
             <div>
@@ -155,24 +170,24 @@ export function Controller(props) {
                 </div>
             </div>
             <h2>Incident Filters</h2>
-            <h3>Incident Type</h3>
+            <h3>Incident Level</h3>
             <div>
                 <div className="input-group">
                     <div className="input">
                         <input type="checkbox" onChange={() => { props.toggleFilter('type', 'Level 1 - Use of Force') }} checked={props.controls.filters.type.includes('Level 1 - Use of Force')}></input>
-                        <label>Type 1</label>
+                        <label>Level 1</label>
                     </div>
                     <div className="input">
                         <input type="checkbox" onChange={() => { props.toggleFilter('type', 'Level 2 - Use of Force') }} checked={props.controls.filters.type.includes('Level 2 - Use of Force')}></input>
-                        <label>Type 2</label>
+                        <label>Level 2</label>
                     </div>
                     <div className="input">
                         <input type="checkbox" onChange={() => { props.toggleFilter('type', 'Level 3 - Use of Force') }} checked={props.controls.filters.type.includes('Level 3 - Use of Force')}></input>
-                        <label>Type 3 (Non-Shooting)</label>
+                        <label>Level 3 (Non-Shooting)</label>
                     </div>
                     <div className="input">
                         <input type="checkbox" onChange={() => { props.toggleFilter('type', 'Level 3 - OIS') }} checked={props.controls.filters.type.includes('Level 3 - OIS')}></input>
-                        <label>Type 3 (Shooting)</label>
+                        <label>Level 3 (Shooting)</label>
                     </div>
                 </div>
             </div>

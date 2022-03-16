@@ -36,7 +36,7 @@ export function Table(props) {
                     <tr>
                         <th>ID</th>
                         <th>Incident Number</th>
-                        <th>Incident Type</th>
+                        <th>Incident Level</th>
                         <th>Date/Time</th>
                         <th>Precinct</th>
                         <th>Sector</th>
@@ -56,7 +56,7 @@ export function Table(props) {
         }
     }
 
-    return (<div className='interactive-table'>
+    return (<div className='card-container'>
         {makeTable()}
     </div>)
 }
