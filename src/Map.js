@@ -5,6 +5,9 @@ import React from "react";
 
 export function Map(props) {
 
+	const width = window.innerWidth - 255
+	const height = window.innerHeight - 100
+
 	//const dataDF = props.dataDF
 	const dataDF = new dfd.DataFrame(props.cleanData)
 
@@ -171,8 +174,9 @@ export function Map(props) {
 	console.log('Map Rendering')
 	return (<div className='card-container'>
 		<div className="map">
-			<svg width={500}
-				height={800}>
+			<svg width={height * 5 / 8}
+				height={height}
+				viewBox="0 0 500 800">
 				<g id="Precincts_x2F_Beats">
 					<g id="North">
 						<path id="U3" className="stU3" style={styles.U3} d="M368.89,128.14l-62.94,1.16l3.11,84.28
