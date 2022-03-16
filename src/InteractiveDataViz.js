@@ -20,7 +20,7 @@ export function InteractiveDataViz(props) {
             precinct: ['North', 'East', 'West', 'South', 'Southwest', '-']
         },
         timeFrame: [undefined, undefined], //min-max
-        plotType: 'plot',
+        plotType: 'map',
     })
     let dataDF
     let cleanData

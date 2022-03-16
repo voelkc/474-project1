@@ -125,30 +125,37 @@ export function Controller(props) {
             <div className="input-group">
                 <div className="input">
                     <input type="checkbox" onChange={() => { props.toggleFilter('race', 'White') }} checked={props.controls.filters.race.includes('White')}></input>
+                    <span class="checkmark"></span>
                     <label>White</label>
                 </div>
                 <div className="input">
                     <input type="checkbox" onChange={() => { props.toggleFilter('race', 'Black or African American') }} checked={props.controls.filters.race.includes('Black or African American')}></input>
+                    <span class="checkmark"></span>
                     <label>Black</label>
                 </div>
                 <div className="input">
                     <input type="checkbox" onChange={() => { props.toggleFilter('race', 'Asian') }} checked={props.controls.filters.race.includes('Asian')}></input>
+                    <span class="checkmark"></span>
                     <label>Asian</label>
                 </div>
                 <div className="input">
                     <input type="checkbox" onChange={() => { props.toggleFilter('race', 'Hispanic or Latino') }} checked={props.controls.filters.race.includes('Hispanic or Latino')}></input>
+                    <span class="checkmark"></span>
                     <label>Hispanic</label>
                 </div>
                 <div className="input">
                     <input type="checkbox" onChange={() => { props.toggleFilter('race', 'American Indian/Alaska Native') }} checked={props.controls.filters.race.includes('American Indian/Alaska Native')}></input>
+                    <span class="checkmark"></span>
                     <label>Native American</label>
                 </div>
                 <div className="input">
                     <input type="checkbox" onChange={() => { props.toggleFilter('race', 'Nat Hawaiian/Oth Pac Islander') }} checked={props.controls.filters.race.includes('Nat Hawaiian/Oth Pac Islander')}></input>
+                    <span class="checkmark"></span>
                     <label>Pacific Islander</label>
                 </div>
                 <div className="input">
                     <input type="checkbox" onChange={() => { props.toggleFilter('race', 'Not Specified') }} checked={props.controls.filters.race.includes('Not Specified')}></input>
+                    <span class="checkmark"></span>
                     <label>Not Specified</label>
                 </div>
             </div>
@@ -157,14 +164,17 @@ export function Controller(props) {
                 <div className="input-group">
                     <div className="input">
                         <input type="checkbox" onChange={() => { props.toggleFilter('gender', 'Male') }} checked={props.controls.filters.gender.includes('Male')}></input>
+                        <span class="checkmark"></span>
                         <label>Male</label>
                     </div>
                     <div className="input">
                         <input type="checkbox" onChange={() => { props.toggleFilter('gender', 'Female') }} checked={props.controls.filters.gender.includes('Female')}></input>
+                        <span class="checkmark"></span>
                         <label>Female</label>
                     </div>
                     <div className="input">
                         <input type="checkbox" onChange={() => { props.toggleFilter('gender', 'Not Specified') }} checked={props.controls.filters.gender.includes('Not Specified')}></input>
+                        <span class="checkmark"></span>
                         <label>Not Specified</label>
                     </div>
                 </div>
@@ -175,18 +185,22 @@ export function Controller(props) {
                 <div className="input-group">
                     <div className="input">
                         <input type="checkbox" onChange={() => { props.toggleFilter('type', 'Level 1 - Use of Force') }} checked={props.controls.filters.type.includes('Level 1 - Use of Force')}></input>
+                        <span class="checkmark"></span>
                         <label>Level 1</label>
                     </div>
                     <div className="input">
                         <input type="checkbox" onChange={() => { props.toggleFilter('type', 'Level 2 - Use of Force') }} checked={props.controls.filters.type.includes('Level 2 - Use of Force')}></input>
+                        <span class="checkmark"></span>
                         <label>Level 2</label>
                     </div>
                     <div className="input">
                         <input type="checkbox" onChange={() => { props.toggleFilter('type', 'Level 3 - Use of Force') }} checked={props.controls.filters.type.includes('Level 3 - Use of Force')}></input>
+                        <span class="checkmark"></span>
                         <label>Level 3 (Non-Shooting)</label>
                     </div>
                     <div className="input">
                         <input type="checkbox" onChange={() => { props.toggleFilter('type', 'Level 3 - OIS') }} checked={props.controls.filters.type.includes('Level 3 - OIS')}></input>
+                        <span class="checkmark"></span>
                         <label>Level 3 (Shooting)</label>
                     </div>
                 </div>
@@ -196,26 +210,32 @@ export function Controller(props) {
                 <div className="input-group">
                     <div className="input">
                         <input type="checkbox" onChange={() => { props.toggleFilter('precinct', 'North') }} checked={props.controls.filters.precinct.includes('North')}></input>
+                        <span class="checkmark"></span>
                         <label>North</label>
                     </div>
                     <div className="input">
                         <input type="checkbox" onChange={() => { props.toggleFilter('precinct', 'West') }} checked={props.controls.filters.precinct.includes('West')}></input>
+                        <span class="checkmark"></span>
                         <label>West</label>
                     </div>
                     <div className="input">
                         <input type="checkbox" onChange={() => { props.toggleFilter('precinct', 'East') }} checked={props.controls.filters.precinct.includes('East')}></input>
+                        <span class="checkmark"></span>
                         <label>East</label>
                     </div>
                     <div className="input">
                         <input type="checkbox" onChange={() => { props.toggleFilter('precinct', 'South') }} checked={props.controls.filters.precinct.includes('South')}></input>
+                        <span class="checkmark"></span>
                         <label>South</label>
                     </div>
                     <div className="input">
                         <input type="checkbox" onChange={() => { props.toggleFilter('precinct', 'Southwest') }} checked={props.controls.filters.precinct.includes('Southwest')}></input>
+                        <span class="checkmark"></span>
                         <label>Southwest</label>
                     </div>
                     <div className="input">
                         <input type="checkbox" onChange={() => { props.toggleFilter('precinct', '-') }} checked={props.controls.filters.precinct.includes('-')}></input>
+                        <span class="checkmark"></span>
                         <label>Not Specified</label>
                     </div>
                 </div>

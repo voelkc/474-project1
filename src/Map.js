@@ -69,22 +69,38 @@ export function Map(props) {
 	console.log(beatFullData)
 	// END OF THE MOVE ^
 
-	// let makeGradient2 = () => {
-	// 	console.log('hi i am firing')
-	// 	let gradientSteps = []
-	// 	for (let i = 0; i < 511; i++) {
-	// 		gradientSteps.push(<rect
-	// 			fill={`rgb(${i - 255}, 0, ${255 - i})`}
-	// 			x={i * .15 + 412}
-	// 			y={30}
-	// 			width={.15}
-	// 			height={20}
-	// 			stroke='none'
-	// 		/>)
-	// 	}
-	// 	return gradientSteps
-	// }
-	// console.log(props)
+	let makeGradient2 = () => {
+		//min is 375
+		// max is 485
+		// number of rects is maxIncidents
+		// 115 pixels in width -1
+		//width of rect is 
+		const width = 115 / maxIncidents
+		console.log(width)
+		console.log('hi i am firing')
+		let gradientSteps = []
+		for (let i = 0; i < maxIncidents; i++) {
+			gradientSteps.push(<rect
+				fill={colorScale(i)}
+				x={i * width + 375}
+				y={30}
+				width={5}
+				height={20}
+				stroke='none'
+			/>)
+		}
+		// put this guy at the end
+		gradientSteps.push(<rect
+			fill={'rgb(32, 32, 32)'}
+			x={110 + 375}
+			y={30}
+			width={10}
+			height={20}
+			stroke='none'
+		/>)
+		return gradientSteps
+	}
+	console.log(props)
 
 
 	let styles = {
@@ -668,33 +684,63 @@ export function Map(props) {
 					<text transform="matrix(1 0 0 1 362.6855 391.7085)"><tspan x="0" y="0" style={{ fill: '#FFFFFF', fontFamily: 'MyriadPro-Regular', fontSize: '12px' }}>East </tspan><tspan x="0" y="14.4" style={{ fill: '#FFFFFF', fontFamily: 'MyriadPro-Regular', fontSize: '12px' }}>Precinct</tspan></text>
 				</g>
 				<rect
-					x={410}
+					x={370}
 					y={10}
-					width={80}
+					width={120}
 					height={90}
 					stroke="white"
 					fill="none" />
-				<text x={425}
+				<text x={405}
 					y={24}
+					fill="white"
 				>Legend</text>
-				<text x={410}
-					y={70}
-				>0</text>
-				<text x={460}
-					y={70}
-				>600</text>
-				{/* {makeGradient2()} */}
+				{makeGradient2()}
 				<line
-					x1={425}
-					y1={65}
-					x2={455}
-					y2={65}
-					stroke='white'
-				/>
-				<text x={412}
-					y={88}
+					x1={375}
+					y1={52}
+					x2={485}
+					y2={52}
+					stroke={'white'} />
+				<line
+					x1={375}
+					y1={52}
+					x2={375}
+					y2={60}
+					stroke={'white'} />
+				<text
+					x={371}
+					y={75}
+					fontSize={13}
+					fill="white">0</text>
+				<line
+					x1={430}
+					y1={52}
+					x2={430}
+					y2={60}
+					stroke={'white'} />
+				<text
+					x={430}
+					y={75}
+					fontSize={13}
+					text-anchor="middle"
+					fill="white">{maxIncidents / 2}</text>
+				<line
+					x1={485}
+					y1={52}
+					x2={485}
+					y2={60}
+					stroke={'white'} />
+				<text
+					x={485}
+					y={75}
+					fontSize={13}
+					text-anchor="end"
+					fill="white">{maxIncidents}</text>
+				<text x={430}
+					y={95}
+					fill='white'
+					text-anchor="middle"
 				># Of UOFs</text>
-
 			</svg>
 		</div >
 	</div>)
