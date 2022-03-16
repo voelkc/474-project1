@@ -64,7 +64,7 @@ export function Plot(props) {
         // return [...rects, ...points] // returns both for debugging
         return rects
     }
-
+    console.log('Plot Rendering')
     if (data.length > 1) {
         return (<div>
             <svg width={width}

@@ -56,6 +56,7 @@ export function Table(props) {
         }
     }
 
+    console.log('Table Rendering')
     return (<div className='card-container'>
         {makeTable()}
     </div>)

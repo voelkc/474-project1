@@ -152,6 +152,7 @@ export function Map(props) {
 
 	// styles.U3.fill = 'rgb(0,200,50)'
 
+	console.log('Map Rendering')
 	return (<div className='card-container'>
 		<div className="map">
 			<svg width={500}

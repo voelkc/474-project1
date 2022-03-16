@@ -42,7 +42,7 @@ export function Controller(props) {
         backgroundColor: 'rgb(120, 120, 120)',
     }
 
-
+    console.log('Controller Rendering')
     return (<div className="controller">
         <form>
             {/* <h2>X-Axis</h2>

@@ -20,7 +20,7 @@ export function InteractiveDataViz(props) {
             precinct: ['North', 'East', 'West', 'South', 'Southwest', '-']
         },
         timeFrame: [undefined, undefined], //min-max
-        plotType: 'officer',
+        plotType: 'plot',
     })
     let dataDF
     let cleanData
@@ -76,16 +76,16 @@ export function InteractiveDataViz(props) {
         setControls(updatedControls) // send the update to state
     }
 
-
     if (props.data !== undefined && props.data.length > 0) {
 
         //Sort the data before converting!!!!
         //By time
         cleanData = props.data.sort((a, b) => a.UTC - b.UTC)
-
         //Get fullMax and fullMin
         fullMin = cleanData[0].UTC
         fullMax = cleanData[cleanData.length - 1].UTC
+
+        console.log('cleanData.length before filter', cleanData.length)
 
         //Filter before converting
         cleanData = cleanData.filter((incident) => {
@@ -112,10 +112,12 @@ export function InteractiveDataViz(props) {
             if (!controls.filters.gender.includes(incident.subjectGender)) { // if the filters dont include the race of incident
                 return false // kill it
             }
+
             //Check Type against filters
             if (!controls.filters.type.includes(incident.incidentType)) { // if the filters dont include the race of incident
                 return false // kill it
             }
+
             //Check location against filters
             if (!controls.filters.precinct.includes(incident.precinct)) { // if the filters dont include the race of incident
                 return false // kill it
@@ -123,35 +125,45 @@ export function InteractiveDataViz(props) {
             return true
         })
 
+        console.log('cleanData.length after filter', cleanData.length)
+
         cleanData = cleanData.map((incident) => {
             incident.simpleDate = new Date(incident.occurredDate.getYear() + 1900, incident.occurredDate.getMonth(), incident.occurredDate.getDate())
             return incident
         })
 
-        dataDF = new dfd.DataFrame(cleanData)
-        //  dataDF.tail().print()
-        //Do group by?
-        //TODO: make it grouped by date, officer or location for the three different types of charts
-        const grpDate = dataDF.groupby(['simpleDate']) // could really just change this from date to location to officer
-        const grpDateIncident = grpDate.col(['incidentNum'])
-        const grpDateIncidentCount = grpDateIncident.count()
-        //grpDateIncidentCount.print()
-        plotData = grpDateIncidentCount.values
+        if (cleanData.length > 0) {
+            dataDF = new dfd.DataFrame(cleanData)
+            //  dataDF.tail().print()
+            //Do group by?
+            //TODO: make it grouped by date, officer or location for the three different types of charts
+            const grpDate = dataDF.groupby(['simpleDate']) // could really just change this from date to location to officer
+            const grpDateIncident = grpDate.col(['incidentNum'])
+            const grpDateIncidentCount = grpDateIncident.count()
+            //grpDateIncidentCount.print()
+            plotData = grpDateIncidentCount.values
+        }
     }
 
     const display = () => {
-        if (controls.plotType === 'plot') {
-            return <Plot data={cleanData} dataFDF={dataDF} plotData={plotData} />
-        } else if (controls.plotType === 'map') {
-            return <Map cleanData={cleanData} dataFDF={dataDF} />
-        } else if (controls.plotType === 'table') {
-            return <Table data={cleanData} />
-        } else if (controls.plotType === 'officer') {
-            return <OfficerPlot data={cleanData} dataFDF={dataDF} />
+        console.log('Display Choice Rendering')
+        if (cleanData.length > 0) { // if clean data has data
+            if (controls.plotType === 'plot') {
+                return <Plot data={cleanData} dataFDF={dataDF} plotData={plotData} />
+            } else if (controls.plotType === 'map') {
+                return <Map cleanData={cleanData} dataFDF={dataDF} />
+            } else if (controls.plotType === 'table') {
+                return <Table data={cleanData} />
+            } else if (controls.plotType === 'officer') {
+                return <OfficerPlot data={cleanData} dataFDF={dataDF} />
+            }
+            return <></>
+        } else { // if not
+            return <p>No data selected</p>
         }
-        return <></>
     }
 
+    console.log('InteractiveDataViz Rendering')
     return (
         <>
             <div className='interactive-data-viz'>
