@@ -672,21 +672,18 @@ const blueScale = d3.scaleLinear()
                     transform={'rotate(-90, 15, 500)'}
                     x={15}
                     y={500}># of UOF Incidents</text>
-
                 <text
                     fill={'white'}
                     fontSize={20}
                     transform={'rotate(-50, 15, 860)'}
                     x={15}
                     y={860}>North Precinct</text>
-
                 <text
                     fill={'white'}
                     fontSize={20}
                     transform={'rotate(-50, 135, 860)'}
                     x={135}
                     y={860}>West Precinct</text>
-
                 <text
                     fill={'white'}
                     fontSize={20}

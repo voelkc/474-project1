@@ -159,7 +159,7 @@ table .emphasis {
   margin-left: 15px;
 }
 
-.interactive-table table,
+.card-container table,
 th,
 td {
   border: 1px solid;
@@ -182,4 +182,9 @@ td {
 
 input[type='checkbox'] {
   cursor: pointer;
+}
+
+.officer-plots {
+  display: flex;
+  flex-direction: row;
 }
