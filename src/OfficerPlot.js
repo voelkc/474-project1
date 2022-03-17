@@ -7,7 +7,7 @@ import data from "./data";
 import { area } from "d3";
 
 export function OfficerPlot(props) {
-    const size = window.innerHeight - 100
+    const size = (window.innerHeight - 100) / 2
     const margin = 30
 
     const data = props.data

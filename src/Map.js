@@ -96,9 +96,9 @@ export function Map(props) {
 		gradientSteps.push(<rect
 			fill={'rgb(32, 32, 32)'}
 			x={110 + 375}
-			y={30}
+			y={29}
 			width={10}
-			height={20}
+			height={22}
 			stroke='none'
 		/>)
 		return gradientSteps
@@ -687,6 +687,11 @@ export function Map(props) {
 					<rect x="362.69" y="383.19" style={{ fill: 'none' }} width="51.77" height="46.11" />
 					<text transform="matrix(1 0 0 1 362.6855 391.7085)"><tspan x="0" y="0" style={{ fill: '#FFFFFF', fontFamily: 'MyriadPro-Regular', fontSize: '12px' }}>East </tspan><tspan x="0" y="14.4" style={{ fill: '#FFFFFF', fontFamily: 'MyriadPro-Regular', fontSize: '12px' }}>Precinct</tspan></text>
 				</g>
+				<text x={405}
+					y={24}
+					fill="white"
+				>Legend</text>
+				{makeGradient2()}
 				<rect
 					x={370}
 					y={10}
@@ -694,11 +699,6 @@ export function Map(props) {
 					height={90}
 					stroke="white"
 					fill="none" />
-				<text x={405}
-					y={24}
-					fill="white"
-				>Legend</text>
-				{makeGradient2()}
 				<line
 					x1={375}
 					y1={52}
