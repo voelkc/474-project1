@@ -200,3 +200,7 @@ td {
   margin: 0px;
   padding: 0px;
 }
+
+.officer-point:hover {
+  cursor: pointer;
+}

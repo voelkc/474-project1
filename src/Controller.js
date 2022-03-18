@@ -1,4 +1,3 @@
-import { rollups } from "d3";
 import React, { useState } from "react";
 
 import { Slider, Rail, Handles, Tracks } from 'react-compound-slider'
@@ -60,7 +59,7 @@ export function Controller(props) {
                         style={{ padding: 0, margin: 0 }}
                         size="small"
                         onChange={() => { props.changePlotType('plot') }}
-                        checked={props.controls.plotType == 'plot'}
+                        checked={props.controls.plotType === 'plot'}
                     />
                     <label>Incidents/Time Plot</label>
                 </div>
@@ -75,7 +74,7 @@ export function Controller(props) {
                         style={{ padding: 0, margin: 0 }}
                         size="small"
                         onChange={() => { props.changePlotType('officer') }}
-                        checked={props.controls.plotType == 'officer'}
+                        checked={props.controls.plotType === 'officer'}
                     />
                     <label>Force Level/Officer Plot</label>
                 </div>
@@ -90,9 +89,9 @@ export function Controller(props) {
                         style={{ padding: 0, margin: 0 }}
                         size="small"
                         onChange={() => { props.changePlotType('map') }}
-                        checked={props.controls.plotType == 'map'}
+                        checked={props.controls.plotType === 'map'}
                     />
-                    <label>Map</label>
+                    <label>Incident Map</label>
                 </div>
                 <div className="input">
                     <Radio
@@ -105,7 +104,7 @@ export function Controller(props) {
                         style={{ padding: 0, margin: 0 }}
                         size="small"
                         onChange={() => { props.changePlotType('table') }}
-                        checked={props.controls.plotType == 'table'}
+                        checked={props.controls.plotType === 'table'}
                     />
                     <label>Table</label>
                 </div>

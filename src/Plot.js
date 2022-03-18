@@ -1,7 +1,7 @@
 import React from "react";
 
 import { AxisLeft, AxisBottom, AxisTop } from "@visx/axis";
-
+import { Tooltip } from "@mui/material";
 import * as d3 from 'd3'
 
 // Plots data coming from App's state. Can be dot plot, map, table....idk
@@ -32,16 +32,18 @@ export function Plot(props) {
     const plotPoints = () => {
 
         const rects = plotData.map((incident, index) => {
-            return (<svg key={index}>
-                <rect
-                    x={xScale(incident[0])}
-                    y={yScale(incident[1])}
-                    width={1}
-                    height={height - axisMargin - yScale(incident[1])}
-                    //stroke={'white'}
-                    fill={'white'}>
-                </rect>
-            </svg >)
+            return (<Tooltip title={`${incident[0].getMonth() + 1}/${incident[0].getDate()}/${incident[0].getYear() + 1900}: ${incident[1]} incidents`} placement="right-start">
+                <svg key={index}>
+                    <rect
+                        x={xScale(incident[0])}
+                        y={yScale(incident[1])}
+                        width={1}
+                        height={height - axisMargin - yScale(incident[1])}
+                        //stroke={'white'}
+                        fill={'white'}>
+                    </rect>
+                </svg >
+            </Tooltip>)
         })
 
         let points = []

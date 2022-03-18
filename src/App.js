@@ -1,8 +1,5 @@
 import React, { useState } from 'react'
 import './index.css'
-
-import { Exploration } from './Exploration';
-import { Plot } from './Plot'
 import { InteractiveDataViz } from './InteractiveDataViz'
 import data from './data';
 

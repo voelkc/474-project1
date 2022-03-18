@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
 import * as dfd from "danfojs"
-import * as d3 from 'd3'
 
 import { Plot } from './Plot'
 import { OfficerPlot } from './OfficerPlot'
