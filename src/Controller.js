@@ -2,7 +2,7 @@ import { rollups } from "d3";
 import React, { useState } from "react";
 
 import { Slider, Rail, Handles, Tracks } from 'react-compound-slider'
-
+import { Checkbox, Radio } from "@mui/material";
 
 export function Controller(props) {
     const [min, setMin] = useState(new Date(props.fullMin))
@@ -45,31 +45,66 @@ export function Controller(props) {
     console.log('Controller Rendering')
     return (<div className="controller">
         <form>
-            {/* <h2>X-Axis</h2>
-            <input type="radio"></input>
-            <label>Time</label>
-            <input type="radio"></input>
-            <label>Officer</label>
-            <h2>Y-Axis</h2>
-            <label>Y-Axis</label>
-            <input type="radio"></input> */}
-
             <h2>Display</h2>
             <div className="input-group">
                 <div className="input">
-                    <input type="radio" onChange={() => { props.changePlotType('plot') }} checked={props.controls.plotType == 'plot'}></input>
+                    <Radio
+                        sx={{
+                            color: "white",
+                            '&.Mui-checked': {
+                                color: "white",
+                            },
+                        }}
+                        style={{ padding: 0, margin: 0 }}
+                        size="small"
+                        onChange={() => { props.changePlotType('plot') }}
+                        checked={props.controls.plotType == 'plot'}
+                    />
                     <label>Time Plot</label>
                 </div>
                 <div className="input">
-                    <input type="radio" onChange={() => { props.changePlotType('officer') }} checked={props.controls.plotType == 'officer'}></input>
+                    <Radio
+                        sx={{
+                            color: "white",
+                            '&.Mui-checked': {
+                                color: "white",
+                            },
+                        }}
+                        style={{ padding: 0, margin: 0 }}
+                        size="small"
+                        onChange={() => { props.changePlotType('officer') }}
+                        checked={props.controls.plotType == 'officer'}
+                    />
                     <label>Officer Plot</label>
                 </div>
                 <div className="input">
-                    <input type="radio" onChange={() => { props.changePlotType('map') }} checked={props.controls.plotType == 'map'}></input>
+                    <Radio
+                        sx={{
+                            color: "white",
+                            '&.Mui-checked': {
+                                color: "white",
+                            },
+                        }}
+                        style={{ padding: 0, margin: 0 }}
+                        size="small"
+                        onChange={() => { props.changePlotType('map') }}
+                        checked={props.controls.plotType == 'map'}
+                    />
                     <label>Map</label>
                 </div>
                 <div className="input">
-                    <input type="radio" onChange={() => { props.changePlotType('table') }} checked={props.controls.plotType == 'table'}></input>
+                    <Radio
+                        sx={{
+                            color: "white",
+                            '&.Mui-checked': {
+                                color: "white",
+                            },
+                        }}
+                        style={{ padding: 0, margin: 0 }}
+                        size="small"
+                        onChange={() => { props.changePlotType('table') }}
+                        checked={props.controls.plotType == 'table'}
+                    />
                     <label>Table</label>
                 </div>
             </div>
@@ -124,38 +159,108 @@ export function Controller(props) {
             <h3>Race</h3>
             <div className="input-group">
                 <div className="input">
-                    <input type="checkbox" onChange={() => { props.toggleFilter('race', 'White') }} checked={props.controls.filters.race.includes('White')}></input>
-                    <span class="checkmark"></span>
+                    <Checkbox
+                        sx={{
+                            color: "white",
+                            '&.Mui-checked': {
+                                color: "white",
+                            },
+                        }}
+                        style={{ padding: 0, margin: 0 }}
+                        size="small"
+                        onChange={() => { props.toggleFilter('race', 'White') }}
+                        checked={props.controls.filters.race.includes('White')}
+                    />
                     <label>White</label>
                 </div>
                 <div className="input">
-                    <input type="checkbox" onChange={() => { props.toggleFilter('race', 'Black or African American') }} checked={props.controls.filters.race.includes('Black or African American')}></input>
-                    <span class="checkmark"></span>
+                    <Checkbox
+                        sx={{
+                            color: "white",
+                            '&.Mui-checked': {
+                                color: "white",
+                            },
+                        }}
+                        style={{ padding: 0, margin: 0 }}
+                        size="small"
+                        onChange={() => { props.toggleFilter('race', 'Black or African American') }}
+                        checked={props.controls.filters.race.includes('Black or African American')}
+                    />
                     <label>Black</label>
                 </div>
                 <div className="input">
-                    <input type="checkbox" onChange={() => { props.toggleFilter('race', 'Asian') }} checked={props.controls.filters.race.includes('Asian')}></input>
-                    <span class="checkmark"></span>
+                    <Checkbox
+                        sx={{
+                            color: "white",
+                            '&.Mui-checked': {
+                                color: "white",
+                            },
+                        }}
+                        style={{ padding: 0, margin: 0 }}
+                        size="small"
+                        onChange={() => { props.toggleFilter('race', 'Asian') }}
+                        checked={props.controls.filters.race.includes('Asian')}
+                    />
                     <label>Asian</label>
                 </div>
                 <div className="input">
-                    <input type="checkbox" onChange={() => { props.toggleFilter('race', 'Hispanic or Latino') }} checked={props.controls.filters.race.includes('Hispanic or Latino')}></input>
-                    <span class="checkmark"></span>
+                    <Checkbox
+                        sx={{
+                            color: "white",
+                            '&.Mui-checked': {
+                                color: "white",
+                            },
+                        }}
+                        style={{ padding: 0, margin: 0 }}
+                        size="small"
+                        onChange={() => { props.toggleFilter('race', 'Hispanic or Latino') }}
+                        checked={props.controls.filters.race.includes('Hispanic or Latino')}
+                    />
                     <label>Hispanic</label>
                 </div>
                 <div className="input">
-                    <input type="checkbox" onChange={() => { props.toggleFilter('race', 'American Indian/Alaska Native') }} checked={props.controls.filters.race.includes('American Indian/Alaska Native')}></input>
-                    <span class="checkmark"></span>
+                    <Checkbox
+                        sx={{
+                            color: "white",
+                            '&.Mui-checked': {
+                                color: "white",
+                            },
+                        }}
+                        style={{ padding: 0, margin: 0 }}
+                        size="small"
+                        onChange={() => { props.toggleFilter('race', 'American Indian/Alaska Native') }}
+                        checked={props.controls.filters.race.includes('American Indian/Alaska Native')}
+                    />
                     <label>Native American</label>
                 </div>
                 <div className="input">
-                    <input type="checkbox" onChange={() => { props.toggleFilter('race', 'Nat Hawaiian/Oth Pac Islander') }} checked={props.controls.filters.race.includes('Nat Hawaiian/Oth Pac Islander')}></input>
-                    <span class="checkmark"></span>
+                    <Checkbox
+                        sx={{
+                            color: "white",
+                            '&.Mui-checked': {
+                                color: "white",
+                            },
+                        }}
+                        style={{ padding: 0, margin: 0 }}
+                        size="small"
+                        onChange={() => { props.toggleFilter('race', 'Nat Hawaiian/Oth Pac Islander') }}
+                        checked={props.controls.filters.race.includes('Nat Hawaiian/Oth Pac Islander')}
+                    />
                     <label>Pacific Islander</label>
                 </div>
                 <div className="input">
-                    <input type="checkbox" onChange={() => { props.toggleFilter('race', 'Not Specified') }} checked={props.controls.filters.race.includes('Not Specified')}></input>
-                    <span class="checkmark"></span>
+                    <Checkbox
+                        sx={{
+                            color: "white",
+                            '&.Mui-checked': {
+                                color: "white",
+                            },
+                        }}
+                        style={{ padding: 0, margin: 0 }}
+                        size="small"
+                        onChange={() => { props.toggleFilter('race', 'Not Specified') }}
+                        checked={props.controls.filters.race.includes('Not Specified')}
+                    />
                     <label>Not Specified</label>
                 </div>
             </div>
@@ -163,18 +268,48 @@ export function Controller(props) {
             <div>
                 <div className="input-group">
                     <div className="input">
-                        <input type="checkbox" onChange={() => { props.toggleFilter('gender', 'Male') }} checked={props.controls.filters.gender.includes('Male')}></input>
-                        <span class="checkmark"></span>
+                        <Checkbox
+                            sx={{
+                                color: "white",
+                                '&.Mui-checked': {
+                                    color: "white",
+                                },
+                            }}
+                            style={{ padding: 0, margin: 0 }}
+                            size="small"
+                            onChange={() => { props.toggleFilter('gender', 'Male') }}
+                            checked={props.controls.filters.gender.includes('Male')}
+                        />
                         <label>Male</label>
                     </div>
                     <div className="input">
-                        <input type="checkbox" onChange={() => { props.toggleFilter('gender', 'Female') }} checked={props.controls.filters.gender.includes('Female')}></input>
-                        <span class="checkmark"></span>
+                        <Checkbox
+                            sx={{
+                                color: "white",
+                                '&.Mui-checked': {
+                                    color: "white",
+                                },
+                            }}
+                            style={{ padding: 0, margin: 0 }}
+                            size="small"
+                            onChange={() => { props.toggleFilter('gender', 'Female') }}
+                            checked={props.controls.filters.gender.includes('Female')}
+                        />
                         <label>Female</label>
                     </div>
                     <div className="input">
-                        <input type="checkbox" onChange={() => { props.toggleFilter('gender', 'Not Specified') }} checked={props.controls.filters.gender.includes('Not Specified')}></input>
-                        <span class="checkmark"></span>
+                        <Checkbox
+                            sx={{
+                                color: "white",
+                                '&.Mui-checked': {
+                                    color: "white",
+                                },
+                            }}
+                            style={{ padding: 0, margin: 0 }}
+                            size="small"
+                            onChange={() => { props.toggleFilter('gender', 'Not Specified') }}
+                            checked={props.controls.filters.gender.includes('Not Specified')}
+                        />
                         <label>Not Specified</label>
                     </div>
                 </div>
@@ -184,23 +319,63 @@ export function Controller(props) {
             <div>
                 <div className="input-group">
                     <div className="input">
-                        <input type="checkbox" onChange={() => { props.toggleFilter('type', 'Level 1 - Use of Force') }} checked={props.controls.filters.type.includes('Level 1 - Use of Force')}></input>
-                        <span class="checkmark"></span>
+                        <Checkbox
+                            sx={{
+                                color: "white",
+                                '&.Mui-checked': {
+                                    color: "white",
+                                },
+                            }}
+                            style={{ padding: 0, margin: 0 }}
+                            size="small"
+                            onChange={() => { props.toggleFilter('type', 'Level 1 - Use of Force') }}
+                            checked={props.controls.filters.type.includes('Level 1 - Use of Force')}
+                        />
                         <label>Level 1</label>
                     </div>
                     <div className="input">
-                        <input type="checkbox" onChange={() => { props.toggleFilter('type', 'Level 2 - Use of Force') }} checked={props.controls.filters.type.includes('Level 2 - Use of Force')}></input>
-                        <span class="checkmark"></span>
+                        <Checkbox
+                            sx={{
+                                color: "white",
+                                '&.Mui-checked': {
+                                    color: "white",
+                                },
+                            }}
+                            style={{ padding: 0, margin: 0 }}
+                            size="small"
+                            onChange={() => { props.toggleFilter('type', 'Level 2 - Use of Force') }}
+                            checked={props.controls.filters.type.includes('Level 2 - Use of Force')}
+                        />
                         <label>Level 2</label>
                     </div>
                     <div className="input">
-                        <input type="checkbox" onChange={() => { props.toggleFilter('type', 'Level 3 - Use of Force') }} checked={props.controls.filters.type.includes('Level 3 - Use of Force')}></input>
-                        <span class="checkmark"></span>
+                        <Checkbox
+                            sx={{
+                                color: "white",
+                                '&.Mui-checked': {
+                                    color: "white",
+                                },
+                            }}
+                            style={{ padding: 0, margin: 0 }}
+                            size="small"
+                            onChange={() => { props.toggleFilter('type', 'Level 3 - Use of Force') }}
+                            checked={props.controls.filters.type.includes('Level 3 - Use of Force')}
+                        />
                         <label>Level 3 (Non-Shooting)</label>
                     </div>
                     <div className="input">
-                        <input type="checkbox" onChange={() => { props.toggleFilter('type', 'Level 3 - OIS') }} checked={props.controls.filters.type.includes('Level 3 - OIS')}></input>
-                        <span class="checkmark"></span>
+                        <Checkbox
+                            sx={{
+                                color: "white",
+                                '&.Mui-checked': {
+                                    color: "white",
+                                },
+                            }}
+                            style={{ padding: 0, margin: 0 }}
+                            size="small"
+                            onChange={() => { props.toggleFilter('type', 'Level 3 - OIS') }}
+                            checked={props.controls.filters.type.includes('Level 3 - OIS')}
+                        />
                         <label>Level 3 (Shooting)</label>
                     </div>
                 </div>
@@ -209,33 +384,93 @@ export function Controller(props) {
             <div>
                 <div className="input-group">
                     <div className="input">
-                        <input type="checkbox" onChange={() => { props.toggleFilter('precinct', 'North') }} checked={props.controls.filters.precinct.includes('North')}></input>
-                        <span class="checkmark"></span>
+                        <Checkbox
+                            sx={{
+                                color: "white",
+                                '&.Mui-checked': {
+                                    color: "white",
+                                },
+                            }}
+                            style={{ padding: 0, margin: 0 }}
+                            size="small"
+                            onChange={() => { props.toggleFilter('precinct', 'North') }}
+                            checked={props.controls.filters.precinct.includes('North')}
+                        />
                         <label>North</label>
                     </div>
                     <div className="input">
-                        <input type="checkbox" onChange={() => { props.toggleFilter('precinct', 'West') }} checked={props.controls.filters.precinct.includes('West')}></input>
-                        <span class="checkmark"></span>
+                        <Checkbox
+                            sx={{
+                                color: "white",
+                                '&.Mui-checked': {
+                                    color: "white",
+                                },
+                            }}
+                            style={{ padding: 0, margin: 0 }}
+                            size="small"
+                            onChange={() => { props.toggleFilter('precinct', 'West') }}
+                            checked={props.controls.filters.precinct.includes('West')}
+                        />
                         <label>West</label>
                     </div>
                     <div className="input">
-                        <input type="checkbox" onChange={() => { props.toggleFilter('precinct', 'East') }} checked={props.controls.filters.precinct.includes('East')}></input>
-                        <span class="checkmark"></span>
+                        <Checkbox
+                            sx={{
+                                color: "white",
+                                '&.Mui-checked': {
+                                    color: "white",
+                                },
+                            }}
+                            style={{ padding: 0, margin: 0 }}
+                            size="small"
+                            onChange={() => { props.toggleFilter('precinct', 'East') }}
+                            checked={props.controls.filters.precinct.includes('East')}
+                        />
                         <label>East</label>
                     </div>
                     <div className="input">
-                        <input type="checkbox" onChange={() => { props.toggleFilter('precinct', 'South') }} checked={props.controls.filters.precinct.includes('South')}></input>
-                        <span class="checkmark"></span>
+                        <Checkbox
+                            sx={{
+                                color: "white",
+                                '&.Mui-checked': {
+                                    color: "white",
+                                },
+                            }}
+                            style={{ padding: 0, margin: 0 }}
+                            size="small"
+                            onChange={() => { props.toggleFilter('precinct', 'South') }}
+                            checked={props.controls.filters.precinct.includes('South')}
+                        />
                         <label>South</label>
                     </div>
                     <div className="input">
-                        <input type="checkbox" onChange={() => { props.toggleFilter('precinct', 'Southwest') }} checked={props.controls.filters.precinct.includes('Southwest')}></input>
-                        <span class="checkmark"></span>
+                        <Checkbox
+                            sx={{
+                                color: "white",
+                                '&.Mui-checked': {
+                                    color: "white",
+                                },
+                            }}
+                            style={{ padding: 0, margin: 0 }}
+                            size="small"
+                            onChange={() => { props.toggleFilter('precinct', 'Southwest') }}
+                            checked={props.controls.filters.precinct.includes('Southwest')}
+                        />
                         <label>Southwest</label>
                     </div>
                     <div className="input">
-                        <input type="checkbox" onChange={() => { props.toggleFilter('precinct', '-') }} checked={props.controls.filters.precinct.includes('-')}></input>
-                        <span class="checkmark"></span>
+                        <Checkbox
+                            sx={{
+                                color: "white",
+                                '&.Mui-checked': {
+                                    color: "white",
+                                },
+                            }}
+                            style={{ padding: 0, margin: 0 }}
+                            size="small"
+                            onChange={() => { props.toggleFilter('precinct', '-') }}
+                            checked={props.controls.filters.precinct.includes('-')}
+                        />
                         <label>Not Specified</label>
                     </div>
                 </div>

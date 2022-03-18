@@ -180,11 +180,23 @@ td {
   flex-direction: column;
 }
 
-input[type='checkbox'] {
-  cursor: pointer;
+.input {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .officer-plots {
   display: flex;
   flex-direction: row;
+}
+
+.MuiCheckbox-root svg {
+  margin: 0px;
+  padding: 0px;
+}
+
+.MuiRadio-root svg {
+  margin: 0px;
+  padding: 0px;
 }
