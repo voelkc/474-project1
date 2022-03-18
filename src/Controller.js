@@ -2,7 +2,7 @@ import { rollups } from "d3";
 import React, { useState } from "react";
 
 import { Slider, Rail, Handles, Tracks } from 'react-compound-slider'
-import { Checkbox, Radio } from "@mui/material";
+import { Checkbox, Radio, Tooltip } from "@mui/material";
 
 export function Controller(props) {
     const [min, setMin] = useState(new Date(props.fullMin))
@@ -45,7 +45,9 @@ export function Controller(props) {
     console.log('Controller Rendering')
     return (<div className="controller">
         <form>
-            <h2>Display</h2>
+            <Tooltip title="Different visualizations to be displayed" placement="bottom">
+                <h2>Display</h2>
+            </Tooltip>
             <div className="input-group">
                 <div className="input">
                     <Radio
@@ -60,7 +62,7 @@ export function Controller(props) {
                         onChange={() => { props.changePlotType('plot') }}
                         checked={props.controls.plotType == 'plot'}
                     />
-                    <label>Time Plot</label>
+                    <label>Incidents/Time Plot</label>
                 </div>
                 <div className="input">
                     <Radio
@@ -75,7 +77,7 @@ export function Controller(props) {
                         onChange={() => { props.changePlotType('officer') }}
                         checked={props.controls.plotType == 'officer'}
                     />
-                    <label>Officer Plot</label>
+                    <label>Force Level/Officer Plot</label>
                 </div>
                 <div className="input">
                     <Radio
@@ -109,8 +111,9 @@ export function Controller(props) {
                 </div>
             </div>
 
-
-            <h2>Date Range</h2>
+            <Tooltip title="The date range of incidents to be selected" placement="bottom">
+                <h2>Date Range</h2>
+            </Tooltip>
             <Slider
                 rootStyle={sliderStyle}
                 domain={[props.fullMin, props.fullMax]}
@@ -154,9 +157,12 @@ export function Controller(props) {
                 </Tracks>
             </Slider>
             <p className="date-label">{`${min.getMonth() + 1}/${min.getDate()}/${min.getYear() + 1900}`} - {`${max.getMonth() + 1}/${max.getDate()}/${max.getYear() + 1900}`}</p>
-
-            <h2>Subject Filters</h2>
-            <h3>Race</h3>
+            <Tooltip title="Filter subject attributes of incidents to be selected" placement="bottom">
+                <h2>Subject Filters</h2>
+            </Tooltip>
+            <Tooltip title="Race of the subject, as identified by the SPD officer" placement="bottom">
+                <h3>Race</h3>
+            </Tooltip>
             <div className="input-group">
                 <div className="input">
                     <Checkbox
@@ -264,7 +270,9 @@ export function Controller(props) {
                     <label>Not Specified</label>
                 </div>
             </div>
-            <h3>Gender</h3>
+            <Tooltip title="Gender of the subject, as identified by the SPD officer" placement="bottom">
+                <h3>Gender</h3>
+            </Tooltip>
             <div>
                 <div className="input-group">
                     <div className="input">
@@ -314,8 +322,12 @@ export function Controller(props) {
                     </div>
                 </div>
             </div>
-            <h2>Incident Filters</h2>
-            <h3>Incident Level</h3>
+            <Tooltip title="Filter attributes of incidents to be selected" placement="bottom">
+                <h2>Incident Filters</h2>
+            </Tooltip>
+            <Tooltip title="Level of force being used by the officer in the Use-of-Force incident, as reported by the SPD officer." placement="bottom">
+                <h3>Incident Level</h3>
+            </Tooltip>
             <div>
                 <div className="input-group">
                     <div className="input">
@@ -380,7 +392,9 @@ export function Controller(props) {
                     </div>
                 </div>
             </div>
-            <h3>Location (SPD Precinct)</h3>
+            <Tooltip title="Precinct location of where the incident occurred. See the map!" placement="bottom">
+                <h3>Location (SPD Precinct)</h3>
+            </Tooltip>
             <div>
                 <div className="input-group">
                     <div className="input">
